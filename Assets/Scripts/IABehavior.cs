@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityStandardAssets.Characters.ThirdPerson;
+using System;
 
 public class IABehavior : MonoBehaviour {
 
@@ -26,6 +27,7 @@ public class IABehavior : MonoBehaviour {
 	private float timer;
 	private float time;
 
+	private Ritual currentRitual;
 	private NavMeshAgent navMeshAgent;
 	private ThirdPersonCharacter character;
 	private AICharacterControl characterControl;
@@ -35,6 +37,10 @@ public class IABehavior : MonoBehaviour {
 	void Start () 
 	{	
 		// state = State.LEAVE;
+		// GameObject god = GameObject.Find("God");
+		// God godScript = god.GetComponent<God>();
+		// God.startRitual += new EventHandler(Pray);
+
 		outerPoint = GameObject.Find("OuterPoint");
 		map = GameObject.Find("map");
 		mapCollider = map.GetComponent<Collider>();
@@ -86,6 +92,7 @@ public class IABehavior : MonoBehaviour {
 		yield return null;
 	} 	
 	
+
 	public void Wander()
 	{
 		// character.Move(IAtargetPosition.transform.position, true, false);
@@ -107,10 +114,40 @@ public class IABehavior : MonoBehaviour {
 
 	public void Pray()
 	{
+		if(currentRitual.GetType() == typeof(ActionSequence))
+		{
+			Debug.Log("wololo");
+		}
+		else if(currentRitual.GetType() == typeof(ZoneOrder))
+		{
+			getClosestSpecificArea((ZoneOrder)currentRitual);
+		}
+
 		// Animation.Play(anim);
 	}
 
+	public void startPraying(Ritual ritual){
+		currentRitual = ritual;
+		state = State.PRAY;
+	}
 
+	public void getClosestSpecificArea(ZoneOrder ritual){
+		if(ritual.isAllowed)
+		{
+			GameObject[] zones = GameObject.FindGameObjectsWithTag(ritual.zone.ToString());
+			GameObject closest = null;
+			float min = float.MaxValue;
+			for(int i = 0; i<zones.Length; i++)
+			{
+				var distance = Vector3.Distance(gameObject.transform.position, zones[i].transform.position);
+				if(distance < min){
+					min = distance;
+					closest = zones[i];
+				}
+			}
+			specificAreaCollider = closest.GetComponent<Collider>();
+		}
+	}
 
 	public void GetRandomPosition(Collider area)
 	{

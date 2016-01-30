@@ -18,8 +18,8 @@ public class ZoneOrder : Ritual
         Terre
     }
 
-    private Zone zone;
-    private bool isAllowed;
+    public Zone zone;
+    public bool isAllowed;
     private Dictionary<PlayerIndex, Player> players;
 
     public ZoneOrder(Zone zone, bool isAllowed, Dictionary<PlayerIndex, Player> players)
