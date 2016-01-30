@@ -73,8 +73,10 @@ public class God : MonoBehaviour
         var player = npc.AddComponent<Player>();
         player.playerIndex = playerIndex;
         npc.tag = "Player";
+
         var userController = controller.gameObject.AddComponent<UnityStandardAssets.Characters.ThirdPerson.ThirdPersonUserControl>();
         userController.inversion = 1;
+        userController.speed = 3;
         userController.playerIndex = playerIndex;
     }
     // Update is called once per frame
