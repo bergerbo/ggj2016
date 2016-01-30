@@ -110,12 +110,9 @@ Shader "Shader Forge/Character_MasterShader" {
 ////// Emissive:
                 float4 _Diffuse_var = tex2D(_Diffuse,TRANSFORM_TEX(i.uv0, _Diffuse));
                 float4 _Mask_var = tex2D(_Mask,TRANSFORM_TEX(i.uv0, _Mask));
-                float3 node_456 = (_Mask_var.r*_HabitColor.rgb);
-                float3 emissive = lerp(_Diffuse_var.rgb,(_Diffuse_var.rgb*lerp(_Diffuse_var.rgb,node_456,_Mask_var.rgb)),_Mask_var.rgb);
+                float3 emissive = lerp(_Diffuse_var.rgb,(_Diffuse_var.rgb*lerp(_Diffuse_var.rgb,(_Mask_var.r*_HabitColor.rgb),_Mask_var.rgb)),_Mask_var.rgb);
                 float node_7782 = max(0,dot(lightDirection,normalDirection)); // Lambert
-                float node_3269 = max(0,dot(normalDirection,halfDirection)); // Blinn-Phong
-                float3 node_5085 = (floor(((_Diffuse_var.rgb*node_7782)+(node_7782*node_3269)) * _Bands) / (_Bands - 1)*_LightColor0.rgb*attenuation); // Attenuate and Color
-                float3 finalColor = emissive + node_5085;
+                float3 finalColor = emissive + (floor(((_Diffuse_var.rgb*node_7782)+(node_7782*max(0,dot(normalDirection,halfDirection)))) * _Bands) / (_Bands - 1)*_LightColor0.rgb*attenuation);
                 fixed4 finalRGBA = fixed4(finalColor,1);
                 UNITY_APPLY_FOG(i.fogCoord, finalRGBA);
                 return finalRGBA;
@@ -181,9 +178,7 @@ Shader "Shader Forge/Character_MasterShader" {
                 float attenuation = LIGHT_ATTENUATION(i);
                 float4 _Diffuse_var = tex2D(_Diffuse,TRANSFORM_TEX(i.uv0, _Diffuse));
                 float node_7782 = max(0,dot(lightDirection,normalDirection)); // Lambert
-                float node_3269 = max(0,dot(normalDirection,halfDirection)); // Blinn-Phong
-                float3 node_5085 = (floor(((_Diffuse_var.rgb*node_7782)+(node_7782*node_3269)) * _Bands) / (_Bands - 1)*_LightColor0.rgb*attenuation); // Attenuate and Color
-                float3 finalColor = node_5085;
+                float3 finalColor = (floor(((_Diffuse_var.rgb*node_7782)+(node_7782*max(0,dot(normalDirection,halfDirection)))) * _Bands) / (_Bands - 1)*_LightColor0.rgb*attenuation);
                 fixed4 finalRGBA = fixed4(finalColor * 1,0);
                 UNITY_APPLY_FOG(i.fogCoord, finalRGBA);
                 return finalRGBA;
