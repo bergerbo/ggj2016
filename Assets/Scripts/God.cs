@@ -1,13 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using XInputDotNetPure;
 
 public class God : MonoBehaviour
 {
-
-
     public Ritual currentRitual;
     public Ritual nextRitual;
 
@@ -23,19 +22,16 @@ public class God : MonoBehaviour
     private Malus[] maluses;
     private RandomMalusGenerator rmg;
 
+    [SerializeField]
     private Action[] actions;
+    [SerializeField]
+    private ZoneOrder.Zone[] zones;
     private RandomRitualGenerator rrg;
 
 
     // Use this for initialization
     void Start()
     {
-        rrg = new RandomRitualGenerator(1);
-        nextRitual = rrg.GetRandomRitual();
-        BroadcastRitual(nextRitual);
-
-        rmg = new RandomMalusGenerator(maluses);
-
         players = new Dictionary<PlayerIndex, Player>();
 
         var playerObjects = GameObject.FindGameObjectsWithTag("Player");
@@ -45,6 +41,11 @@ public class God : MonoBehaviour
             players.Add(player.playerIndex, player);
         }
 
+        rmg = new RandomMalusGenerator(maluses);
+
+        rrg = new RandomRitualGenerator(players,actions,zones);
+        nextRitual = rrg.GetRandomRitual();
+        explainRitual(nextRitual);
     }
 
     // Update is called once per frame
@@ -61,7 +62,7 @@ public class God : MonoBehaviour
                 PunishUnfaithfulPlayers();
                 currentRitual = null;
                 nextRitual = rrg.GetRandomRitual();
-                BroadcastRitual(nextRitual);
+                explainRitual(nextRitual);
             }
         }
         else
@@ -106,26 +107,16 @@ public class God : MonoBehaviour
         var malus = rmg.GetRandomMalus();
         var instance = GameObject.Instantiate(malus);
         instance.gameObject.transform.SetParent(player.gameObject.transform);
-
     }
 
     private void PunishUnfaithfulPlayers()
     {
-        var playersToPunish = currentRitual.UnfaithfulPlayers();
-
-        Debug.Log(playersToPunish.Length + " players to punish for ritual uncompletion");
+        foreach(var player in currentRitual.UnfaithfulPlayers())
+            PunishPlayer(player);     
     }
 
-    private void BroadcastRitual(Ritual ritual)
+    private void explainRitual(Ritual ritual)
     {
-        var str = "For ritual next press buttons:";
-        ActionSequence seq = (ActionSequence)ritual;
-
-        foreach (Action action in seq.GetActions())
-        {
-            str += " " + Enum.GetName(action.input.GetType(), action.input);
-        }
-
-        Debug.Log(str);
+        ritual.Explain();
     }
 }
