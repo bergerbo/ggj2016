@@ -6,17 +6,17 @@ using System.Linq;
 
 public class RandomMalusGenerator {
 
-    private Type[] malusTypes;
+    private Malus[] maluses;
     private System.Random rng;
 
     public RandomMalusGenerator(Malus[] maluses)
     {
         rng = new System.Random();
-        malusTypes = maluses.Select(m => m.GetType()).ToArray();
+        this.maluses = maluses;
     }
 
-    public Type GetRandomMalus()
+    public Malus GetRandomMalus()
     {
-        return malusTypes[rng.Next(0, malusTypes.Length)];
+        return maluses[rng.Next(0, maluses.Length)];
     }
 }

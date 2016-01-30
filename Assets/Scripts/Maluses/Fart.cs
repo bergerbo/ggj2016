@@ -7,6 +7,7 @@ public class Fart : Malus
     protected override void onBegin()
     {
         Debug.Log("Player " + player.playerIndex + " farted");
+
     }
 
     protected override void onEnd(){}
