@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using XInputDotNetPure;
 
 public interface Ritual {
-    bool ProcessInput(int playerNumber, Player.ActionInput input);
+    bool ProcessInput(PlayerIndex playerIndex, Player.ActionInput input);
     int[] UnfaithfulPlayers();
 }
