@@ -13,7 +13,7 @@ public abstract class Malus : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        player = GetComponent<Player>();
+        player = GetComponentInParent<Player>();
         onBegin();
 	}
 	
@@ -21,20 +21,15 @@ public abstract class Malus : MonoBehaviour {
 	void Update () {
         timeSinceBegin += Time.deltaTime;
 
-        if(timeSinceBegin>duration)
+        if(timeSinceBegin > duration)
         {
             Destroy();
         }
 	}
 
-    public static void Test()
-    {
-
-    }
-
     public void Destroy()
     {
         onEnd();
-        Destroy(this);
+        Destroy(this.gameObject);
     }
 }
