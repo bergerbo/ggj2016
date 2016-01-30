@@ -4,7 +4,8 @@ using System;
 using System.Collections.Generic;
 using XInputDotNetPure;
 
-public class God : MonoBehaviour {
+public class God : MonoBehaviour
+{
 
 
     public Ritual currentRitual;
@@ -15,7 +16,7 @@ public class God : MonoBehaviour {
 
     private float timeSinceRitualBegin;
     private float timeSinceLastRitual;
-    
+
     private Dictionary<PlayerIndex, Player> players;
 
     [SerializeField]
@@ -27,7 +28,8 @@ public class God : MonoBehaviour {
 
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         rrg = new RandomRitualGenerator(1);
         nextRitual = rrg.GetRandomRitual();
         BroadcastRitual(nextRitual);
@@ -37,7 +39,8 @@ public class God : MonoBehaviour {
         players = new Dictionary<PlayerIndex, Player>();
 
         var playerObjects = GameObject.FindGameObjectsWithTag("Player");
-        foreach(var po in playerObjects) {
+        foreach (var po in playerObjects)
+        {
             var player = po.GetComponent<Player>();
             players.Add(player.playerIndex, player);
         }
@@ -45,21 +48,23 @@ public class God : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update () {
+    void Update()
+    {
         float dt = Time.deltaTime;
 
-        if(currentRitual != null)
+        if (currentRitual != null)
         {
             timeSinceRitualBegin += dt;
 
-            if(timeSinceRitualBegin >= ritualDuration)
+            if (timeSinceRitualBegin >= ritualDuration)
             {
                 PunishUnfaithfulPlayers();
                 currentRitual = null;
                 nextRitual = rrg.GetRandomRitual();
                 BroadcastRitual(nextRitual);
             }
-        } else
+        }
+        else
         {
             timeSinceLastRitual += dt;
 
@@ -77,9 +82,9 @@ public class God : MonoBehaviour {
     {
         Debug.Log("Player " + playerNumber + "pressed" + Enum.GetName(input.GetType(), input));
         var punishPlayer = true;
-        if(currentRitual != null)
+        if (currentRitual != null)
         {
-            punishPlayer = !currentRitual.ProcessInput(playerNumber, input);
+            punishPlayer = currentRitual.ProcessInput(playerNumber, input);
         }
         if (punishPlayer)
             PunishPlayer(playerNumber);
@@ -88,9 +93,20 @@ public class God : MonoBehaviour {
     private void PunishPlayer(PlayerIndex playerNumber)
     {
         Debug.Log("Punish Player " + playerNumber);
+
         var player = players[playerNumber];
+
+
+        var currentMalus = player.GetComponentInChildren<Malus>();
+        if (currentMalus != null)
+        {
+            currentMalus.Destroy();
+        }
+
         var malus = rmg.GetRandomMalus();
-        player.gameObject.AddComponent(malus);
+        var instance = GameObject.Instantiate(malus);
+        instance.gameObject.transform.SetParent(player.gameObject.transform);
+
     }
 
     private void PunishUnfaithfulPlayers()
@@ -105,9 +121,9 @@ public class God : MonoBehaviour {
         var str = "For ritual next press buttons:";
         ActionSequence seq = (ActionSequence)ritual;
 
-        foreach(Action action in seq.GetActions())
+        foreach (Action action in seq.GetActions())
         {
-            str += " " + Enum.GetName(action.input.GetType(),action.input);
+            str += " " + Enum.GetName(action.input.GetType(), action.input);
         }
 
         Debug.Log(str);

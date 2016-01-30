@@ -21,7 +21,6 @@ public class ActionSequence : Ritual
         if (actions[playerState].input == input)
         {
             playersStates[(int)playerNumber] = playerState + 1;
-            return true;
         }
         return false;
     }
