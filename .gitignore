@@ -63,3 +63,5 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 Assets/Textures/Interface.meta
+ProjectSettings/ProjectSettings.asset
+ProjectSettings/ProjectVersion.txt
