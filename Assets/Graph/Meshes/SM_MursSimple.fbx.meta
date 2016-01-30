@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: f8da1ab2ccf8f224fa61864c69c9ce04
-timeCreated: 1454151398
+guid: b1ad0bb4ce2e4754194a07d7c4a338ac
+timeCreated: 1454151884
 licenseType: Free
 ModelImporter:
   serializedVersion: 18
@@ -9,8 +9,7 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: polySurface5
-    4300002: Mur
+    4300000: MurSimple
   materials:
     importMaterials: 1
     materialName: 1

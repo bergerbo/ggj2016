@@ -2,6 +2,7 @@
 using System.Collections;
 using System;
 using System.Collections.Generic;
+using XInputDotNetPure;
 
 public class God : MonoBehaviour {
 
@@ -15,7 +16,7 @@ public class God : MonoBehaviour {
     private float timeSinceRitualBegin;
     private float timeSinceLastRitual;
     
-    private Dictionary<int, Player> players;
+    private Dictionary<PlayerIndex, Player> players;
 
     [SerializeField]
     private Malus[] maluses;
@@ -33,12 +34,12 @@ public class God : MonoBehaviour {
 
         rmg = new RandomMalusGenerator(maluses);
 
-        players = new Dictionary<int, Player>();
+        players = new Dictionary<PlayerIndex, Player>();
 
         var playerObjects = GameObject.FindGameObjectsWithTag("Player");
         foreach(var po in playerObjects) {
             var player = po.GetComponent<Player>();
-            players.Add(player.playerNumber, player);
+            players.Add(player.playerIndex, player);
         }
 
     }
@@ -72,7 +73,7 @@ public class God : MonoBehaviour {
         }
     }
 
-    public void ProcessPlayerInput(int playerNumber, Player.ActionInput input)
+    public void ProcessPlayerInput(PlayerIndex playerNumber, Player.ActionInput input)
     {
         Debug.Log("Player " + playerNumber + "pressed" + Enum.GetName(input.GetType(), input));
         var punishPlayer = true;
@@ -84,7 +85,7 @@ public class God : MonoBehaviour {
             PunishPlayer(playerNumber);
     }
 
-    private void PunishPlayer(int playerNumber)
+    private void PunishPlayer(PlayerIndex playerNumber)
     {
         Debug.Log("Punish Player " + playerNumber);
         var player = players[playerNumber];
