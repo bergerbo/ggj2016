@@ -17,6 +17,8 @@ public class IABehavior : MonoBehaviour {
 	private GameObject map;
 	private Collider mapCollider;
 
+	private GameObject specificArea;
+	private Collider specificAreaCollider;
 	public GameObject IAtargetPosition;
 
 	private float timer;
@@ -25,6 +27,8 @@ public class IABehavior : MonoBehaviour {
 	private NavMeshAgent navMeshAgent;
 	private ThirdPersonCharacter character;
 	private AICharacterControl characterControl;
+
+
 
 	void Start () 
 	{	
@@ -48,8 +52,11 @@ public class IABehavior : MonoBehaviour {
 			timer += Time.deltaTime;
 			yield return null;
 		}
-			
-		GetRandomPosition(mapCollider);
+		
+		if(state == State.WANDER)
+			GetRandomPosition(mapCollider);
+		else if(state == State.PRAY)
+			GetRandomPosition(specificAreaCollider);
 		yield return StartCoroutine(GetTargetLoop(UnityEngine.Random.Range(1f, 2f) * 2f));
 
 	}
@@ -69,6 +76,7 @@ public class IABehavior : MonoBehaviour {
 				Leave();
 				break;
 			case State.PRAY:
+				yield return new WaitForSeconds(UnityEngine.Random.Range(0f, 2f));
 				Pray();
 				break;
 		}
@@ -94,8 +102,10 @@ public class IABehavior : MonoBehaviour {
 
 	public void Pray()
 	{
-
+		// Animation.Play(anim);
 	}
+
+
 
 	public void GetRandomPosition(Collider area)
 	{
