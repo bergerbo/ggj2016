@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using XInputDotNetPure;
 
 public class Player : MonoBehaviour {
 
@@ -8,21 +9,12 @@ public class Player : MonoBehaviour {
         A,B,X,Y
     }
 
-    public int playerNumber;
+    public PlayerIndex playerIndex;
     private God god;
 
     #region Inputs
-    private bool actionA = false;
-    private bool prevActionA = false;
-
-    private bool actionB = false;
-    private bool prevActionB = false;
-
-    private bool actionX = false;
-    private bool prevActionX = false;
-
-    private bool actionY = false;
-    private bool prevActionY = false;
+    private GamePadState state;
+    private GamePadState prevState;
     #endregion Inputs
 
     // Use this for initialization
@@ -32,37 +24,30 @@ public class Player : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        prevActionA = actionA;
-        prevActionB = actionB;
-        prevActionX = actionX;
-        prevActionY = actionY;
+        prevState = state;
+        state = GamePad.GetState(playerIndex);
 
-        actionA = Input.GetKey("joystick button 0");
-        actionB = Input.GetKey("joystick button 1");
-        actionX = Input.GetKey("joystick button 2");
-        actionY = Input.GetKey("joystick button 3");
-
-        if (actionA && !prevActionA)
+        if (state.Buttons.A == ButtonState.Pressed && prevState.Buttons.A == ButtonState.Released)
         {
-            god.ProcessPlayerInput(playerNumber, ActionInput.A);
+            god.ProcessPlayerInput(playerIndex, ActionInput.A);
             return;
         }
 
-        if (actionB && !prevActionB)
+        if (state.Buttons.B == ButtonState.Pressed && prevState.Buttons.B == ButtonState.Released)
         {
-            god.ProcessPlayerInput(playerNumber, ActionInput.B);
+            god.ProcessPlayerInput(playerIndex, ActionInput.B);
             return;
         }
 
-        if (actionX && !prevActionX)
+        if (state.Buttons.X == ButtonState.Pressed && prevState.Buttons.X == ButtonState.Released)
         {
-            god.ProcessPlayerInput(playerNumber, ActionInput.X);
+            god.ProcessPlayerInput(playerIndex, ActionInput.X);
             return;
         }
 
-        if (actionY && ! prevActionY)
+        if (state.Buttons.Y == ButtonState.Pressed && prevState.Buttons.Y == ButtonState.Released)
         {
-            god.ProcessPlayerInput(playerNumber, ActionInput.Y);
+            god.ProcessPlayerInput(playerIndex, ActionInput.Y);
             return;
         }
     }
