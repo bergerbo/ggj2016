@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using System.Collections.Generic;
 
 public class God : MonoBehaviour {
 
@@ -13,7 +14,14 @@ public class God : MonoBehaviour {
 
     private float timeSinceRitualBegin;
     private float timeSinceLastRitual;
+    
+    private Dictionary<int, Player> players;
 
+    [SerializeField]
+    private Malus[] maluses;
+    private RandomMalusGenerator rmg;
+
+    private Action[] actions;
     private RandomRitualGenerator rrg;
 
 
@@ -22,10 +30,21 @@ public class God : MonoBehaviour {
         rrg = new RandomRitualGenerator(1);
         nextRitual = rrg.GetRandomRitual();
         BroadcastRitual(nextRitual);
+
+        rmg = new RandomMalusGenerator(maluses);
+
+        players = new Dictionary<int, Player>();
+
+        var playerObjects = GameObject.FindGameObjectsWithTag("Player");
+        foreach(var po in playerObjects) {
+            var player = po.GetComponent<Player>();
+            players.Add(player.playerNumber, player);
+        }
+
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update () {
         float dt = Time.deltaTime;
 
         if(currentRitual != null)
@@ -68,6 +87,9 @@ public class God : MonoBehaviour {
     private void PunishPlayer(int playerNumber)
     {
         Debug.Log("Punish Player " + playerNumber);
+        var player = players[playerNumber];
+        var malus = rmg.GetRandomMalus();
+        player.gameObject.AddComponent(malus);
     }
 
     private void PunishUnfaithfulPlayers()
