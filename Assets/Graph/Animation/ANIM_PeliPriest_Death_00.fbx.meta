@@ -1,0 +1,119 @@
+fileFormatVersion: 2
+guid: af812b30852bbe64b850a976b66d1925
+timeCreated: 1454192842
+licenseType: Free
+ModelImporter:
+  serializedVersion: 18
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: C_beak_jnt
+    100004: C_chest_jnt
+    100006: C_head_jnt
+    100008: C_neck_jnt
+    100010: C_root_jnt
+    100012: C_ultimate_jnt
+    100014: L_ankle_jnt
+    100016: L_clavicle_jnt
+    100018: L_elbow_jnt
+    100020: L_hand_jnt
+    100022: L_hip_jnt
+    100024: L_knee_jnt
+    100026: L_shoulder_jnt
+    100028: PeliPriest
+    100030: R_ankle_jnt
+    100032: R_clavicle_jnt
+    100034: R_elbow_jnt
+    100036: R_hand_jnt
+    100038: R_hip_jnt
+    100040: R_knee_jnt
+    100042: R_shoulder_jnt
+    400000: //RootNode
+    400002: C_beak_jnt
+    400004: C_chest_jnt
+    400006: C_head_jnt
+    400008: C_neck_jnt
+    400010: C_root_jnt
+    400012: C_ultimate_jnt
+    400014: L_ankle_jnt
+    400016: L_clavicle_jnt
+    400018: L_elbow_jnt
+    400020: L_hand_jnt
+    400022: L_hip_jnt
+    400024: L_knee_jnt
+    400026: L_shoulder_jnt
+    400028: PeliPriest
+    400030: R_ankle_jnt
+    400032: R_clavicle_jnt
+    400034: R_elbow_jnt
+    400036: R_hand_jnt
+    400038: R_hip_jnt
+    400040: R_knee_jnt
+    400042: R_shoulder_jnt
+    4300000: PeliPriest
+    7400000: Take 001
+    9500000: //RootNode
+    13700000: PeliPriest
+  materials:
+    importMaterials: 0
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
