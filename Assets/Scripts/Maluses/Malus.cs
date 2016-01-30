@@ -27,11 +27,6 @@ public abstract class Malus : MonoBehaviour {
         }
 	}
 
-    public static void Test()
-    {
-
-    }
-
     public void Destroy()
     {
         onEnd();
