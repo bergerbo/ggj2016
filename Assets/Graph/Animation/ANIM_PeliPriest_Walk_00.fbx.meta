@@ -50,7 +50,7 @@ ModelImporter:
     400040: R_knee_jnt
     400042: R_shoulder_jnt
     4300000: PeliPriest
-    7400000: Take 001
+    7400000: PelicanRun
     9500000: //RootNode
     13700000: PeliPriest
   materials:
@@ -66,13 +66,83 @@ ModelImporter:
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
-    animationCompression: 1
+    animationCompression: 3
     animationRotationError: .5
     animationPositionError: .5
     animationScaleError: .5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: PelicanRun
+      takeName: Take 001
+      firstFrame: 0
+      lastFrame: 25
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: C_ultimate_jnt
+        weight: 1
+      - path: C_ultimate_jnt/C_root_jnt
+        weight: 1
+      - path: C_ultimate_jnt/C_root_jnt/C_chest_jnt
+        weight: 1
+      - path: C_ultimate_jnt/C_root_jnt/C_chest_jnt/C_neck_jnt
+        weight: 1
+      - path: C_ultimate_jnt/C_root_jnt/C_chest_jnt/C_neck_jnt/C_head_jnt
+        weight: 1
+      - path: C_ultimate_jnt/C_root_jnt/C_chest_jnt/C_neck_jnt/C_head_jnt/C_beak_jnt
+        weight: 1
+      - path: C_ultimate_jnt/C_root_jnt/C_chest_jnt/L_clavicle_jnt
+        weight: 1
+      - path: C_ultimate_jnt/C_root_jnt/C_chest_jnt/L_clavicle_jnt/L_shoulder_jnt
+        weight: 1
+      - path: C_ultimate_jnt/C_root_jnt/C_chest_jnt/L_clavicle_jnt/L_shoulder_jnt/L_elbow_jnt
+        weight: 1
+      - path: C_ultimate_jnt/C_root_jnt/C_chest_jnt/L_clavicle_jnt/L_shoulder_jnt/L_elbow_jnt/L_hand_jnt
+        weight: 1
+      - path: C_ultimate_jnt/C_root_jnt/C_chest_jnt/R_clavicle_jnt
+        weight: 1
+      - path: C_ultimate_jnt/C_root_jnt/C_chest_jnt/R_clavicle_jnt/R_shoulder_jnt
+        weight: 1
+      - path: C_ultimate_jnt/C_root_jnt/C_chest_jnt/R_clavicle_jnt/R_shoulder_jnt/R_elbow_jnt
+        weight: 1
+      - path: C_ultimate_jnt/C_root_jnt/C_chest_jnt/R_clavicle_jnt/R_shoulder_jnt/R_elbow_jnt/R_hand_jnt
+        weight: 1
+      - path: C_ultimate_jnt/C_root_jnt/L_hip_jnt
+        weight: 1
+      - path: C_ultimate_jnt/C_root_jnt/L_hip_jnt/L_knee_jnt
+        weight: 1
+      - path: C_ultimate_jnt/C_root_jnt/L_hip_jnt/L_knee_jnt/L_ankle_jnt
+        weight: 1
+      - path: C_ultimate_jnt/C_root_jnt/R_hip_jnt
+        weight: 1
+      - path: C_ultimate_jnt/C_root_jnt/R_hip_jnt/R_knee_jnt
+        weight: 1
+      - path: C_ultimate_jnt/C_root_jnt/R_hip_jnt/R_knee_jnt/R_ankle_jnt
+        weight: 1
+      - path: PeliPriest
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
     isReadable: 1
   meshes:
     lODScreenPercentages: []
@@ -93,7 +163,7 @@ ModelImporter:
     useFileScale: 1
   tangentSpace:
     normalSmoothAngle: 60
-    splitTangentsAcrossUV: 1
+    splitTangentsAcrossUV: 0
     normalImportMode: 0
     tangentImportMode: 1
   importAnimation: 1
