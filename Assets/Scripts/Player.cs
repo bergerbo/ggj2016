@@ -11,36 +11,56 @@ public class Player : MonoBehaviour {
     public int playerNumber;
     private God god;
 
-	// Use this for initialization
-	void Start () {
+    #region Inputs
+    private bool actionA = false;
+    private bool prevActionA = false;
+
+    private bool actionB = false;
+    private bool prevActionB = false;
+
+    private bool actionX = false;
+    private bool prevActionX = false;
+
+    private bool actionY = false;
+    private bool prevActionY = false;
+    #endregion Inputs
+
+    // Use this for initialization
+    void Start () {
         god = GameObject.FindGameObjectWithTag("God").GetComponent<God>();
-	}
+    }
 	
 	// Update is called once per frame
 	void Update () {
-        bool actionA = Input.GetKey("joystick " + playerNumber + " button 0");
-        if (actionA)
+        prevActionA = actionA;
+        prevActionB = actionB;
+        prevActionX = actionX;
+        prevActionY = actionY;
+
+        actionA = Input.GetKey("joystick button 0");
+        actionB = Input.GetKey("joystick button 1");
+        actionX = Input.GetKey("joystick button 2");
+        actionY = Input.GetKey("joystick button 3");
+
+        if (actionA && !prevActionA)
         {
             god.ProcessPlayerInput(playerNumber, ActionInput.A);
             return;
         }
 
-        bool actionB = Input.GetKeyDown("joystick " + playerNumber + " button 1");
-        if (actionB)
+        if (actionB && !prevActionB)
         {
             god.ProcessPlayerInput(playerNumber, ActionInput.B);
             return;
         }
 
-        bool actionX = Input.GetKeyDown("joystick " + playerNumber + " button 2");
-        if (actionX)
+        if (actionX && !prevActionX)
         {
             god.ProcessPlayerInput(playerNumber, ActionInput.X);
             return;
         }
 
-        bool actionY = Input.GetKeyDown("joystick " + playerNumber + " button 3");
-        if (actionY)
+        if (actionY && ! prevActionY)
         {
             god.ProcessPlayerInput(playerNumber, ActionInput.Y);
             return;
