@@ -75,6 +75,7 @@ public class God : MonoBehaviour
                 currentRitual = nextRitual;
                 timeSinceRitualBegin = 0;
                 Debug.Log("Go !");
+                startRitual(currentRitual);
             }
         }
     }
@@ -114,6 +115,10 @@ public class God : MonoBehaviour
         foreach(var player in currentRitual.UnfaithfulPlayers())
             PunishPlayer(player);     
     }
+
+
+    public delegate void StartRitual(Ritual ritual);
+    public event StartRitual startRitual;
 
     private void explainRitual(Ritual ritual)
     {

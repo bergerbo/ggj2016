@@ -5,69 +5,69 @@ using System.Collections.Generic;
 using XInputDotNetPure;
 using Random = UnityEngine.Random;
 
-public class PlayerDetection : MonoBehaviour {
-	// private PlayerIndex playerIndex;
-	// private bool playerIndexSet;
+public class PlayerDetection : MonoBehaviour
+{
 
-	public GameObject[] playerIcons;
+    public GameObject[] playerIcons;
 
-	public GamePadState[] playerStates;
-	public GamePadState[] prevStates;
+    public GamePadState[] playerStates;
+    public GamePadState[] prevStates;
 
-	public GameObject readyImage;
-	// GamePadState state;
- //    GamePadState prevState;
+    public GameObject readyImage;
+
+    private GameManager gameManager;
+
+    public List<PlayerIndex> playersReady = new List<PlayerIndex>();
+    public GameObject mainMenuUI;
+    public GameObject playerDetectionUI;
 
 
-	private GameManager gameManager;
-	// Use this for initialization
-	void Start () {
-		playerStates = new GamePadState[4];
-		prevStates = new GamePadState[4];
-		gameManager = GameManager.GetInstance();
-		// GamePad.GetState(playerIndex);
-		// if (!playerIndexSet || !prevState.IsConnected)
-  //       {
-            
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		if (gameManager.gameState == GameManager.GameState.PLAYERSELECTION)
-		{
-			for (int i = 0; i < 4; ++i)
-	            {
-	                PlayerIndex testPlayerIndex = (PlayerIndex)i;
-	                GamePadState testState = GamePad.GetState(testPlayerIndex);
-	                if (testState.IsConnected)
-	                {
-	                	prevStates[i] = playerStates[i];
-	                	playerStates[i] = testState;
-	                    // Debug.Log(string.Format("GamePad found {0}", testPlayerIndex));
-	                    // Debug.Log(playerStates[i]);
-	                    // playerIndex = testPlayerIndex;
-	                    // playerIndexSet = true;
-	                }
-	        }
-			// state = GamePad.GetState(playerIndex);
+    // Use this for initialization
+    void Start()
+    {
+        playerStates = new GamePadState[4];
+        prevStates = new GamePadState[4];
+        gameManager = GameManager.GetInstance();
+    }
 
-	        // Detect if a button was pressed this frame
+    // Update is called once per frame
+    void Update()
+    {
+        if (gameManager.gameState == GameManager.GameState.PLAYERSELECTION)
+        {
+            // Detect if a button was pressed this frame
 
-	        for(int i =0; i < playerStates.Length; i++)
-	        {
-		        if (prevStates[i].Buttons.A == ButtonState.Released && playerStates[i].Buttons.A == ButtonState.Pressed)
-		        {
-		        	if(!gameManager.playersReady.ContainsKey((PlayerIndex)i)){
+            for (int i = 0; i < playerStates.Length; i++)
+            {
+                prevStates[i] = playerStates[i];
+                playerStates[i] = GamePad.GetState((PlayerIndex)i);
 
-		            	gameManager.playersReady.Add((PlayerIndex)i, true);
-		            	playerIcons[i].SetActive(true);
-		            	// Debug.Log("Player"+i+" ready");
+                if (prevStates[i].Buttons.A == ButtonState.Released && playerStates[i].Buttons.A == ButtonState.Pressed)
+                {
+                    if (!playersReady.Contains((PlayerIndex)i))
+                    {
+                        playersReady.Add((PlayerIndex)i);
+                        playerIcons[i].SetActive(true);
+                    }
+                }
+                if (prevStates[i].Buttons.Start == ButtonState.Released && playerStates[i].Buttons.Start == ButtonState.Pressed)
+                {
+                    StartRandomLevel();
+                }
+            }
+        }
+    }
 
-		            	// Debug.Log(gameManager.playersReady.Count);
-		        	}
+    public void LaunchPlayerDetection()
+    {
+        mainMenuUI.SetActive(false);
+        playerDetectionUI.SetActive(true);
+        GameManager.GetInstance().gameState = GameManager.GameState.PLAYERSELECTION;
+    }
 
-		        }
-	        }
-		}
-	}
+    public void StartRandomLevel()
+    {
+        gameManager.StartRandomLevel(playersReady.ToArray());
+    }
+
 }
