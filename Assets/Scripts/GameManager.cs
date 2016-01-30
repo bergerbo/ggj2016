@@ -1,20 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GameManagerScript : MonoBehaviour {
+public class GameManager : MonoBehaviour {
 
-	public static GameManagerScript instance;
+	public static GameManager instance;
 
-	public static GameManagerScript GetInstance()
+	public static GameManager GetInstance()
 	{
 		if(instance == null)
 		{
-			instance = this;
+			instance = new GameManager();
 		}
-		else
-		{
-			return instance;
-		}
+		
+		return instance;
 	}
 
 	public delegate void OnPause();
