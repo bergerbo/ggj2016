@@ -3,44 +3,51 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 using XInputDotNetPure;
+using System.Linq;
 
 public class ActionSequence : Ritual
 {
     private Action[] actions;
-    private int[] playersStates;
+    private Dictionary<PlayerIndex,int> playersStates;
 
-    public ActionSequence(int playersNumber, Action[] actions)
+    public ActionSequence(PlayerIndex[] players, Action[] actions)
     {
         this.actions = actions;
-        this.playersStates = new int[playersNumber];
+        this.playersStates = new Dictionary<PlayerIndex, int>();
+        foreach(var player in players)
+        {
+            playersStates.Add(player, 0);
+        }
     }
 
     public bool ProcessInput(PlayerIndex playerNumber, Player.ActionInput input)
     {
-        var playerState = playersStates[(int)playerNumber];
+        var playerState = playersStates[playerNumber];
         if (actions[playerState].input == input)
         {
-            playersStates[(int)playerNumber] = playerState + 1;
+            playersStates[playerNumber] = playerState + 1;
         }
         return false;
     }
 
-    public int[] UnfaithfulPlayers()
+    public IEnumerable<PlayerIndex> UnfaithfulPlayers()
     {
-        List<int> unfaithfulPlayers = new List<int>();
 
-        for (int i = 0; i < playersStates.Length; i++)
+        foreach(var playerState in playersStates)
         {
-            if(playersStates[i] < actions.Length)
-            {
-                unfaithfulPlayers.Add(i+1);
-            }
+            if (playerState.Value < actions.Length)
+                yield return playerState.Key;
         }
-        return unfaithfulPlayers.ToArray();
     }
 
-    internal IEnumerable<Action> GetActions()
+    public void Explain()
     {
-        return actions;
+        var str = "For ritual next press buttons:";
+        foreach (Action action in actions)
+        {
+            str += " " + Enum.GetName(action.input.GetType(), action.input);
+        }
+        Debug.Log(str);
+
     }
 }
