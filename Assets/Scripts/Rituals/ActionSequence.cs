@@ -2,6 +2,7 @@
 using System.Collections;
 using System;
 using System.Collections.Generic;
+using XInputDotNetPure;
 
 public class ActionSequence : Ritual
 {
@@ -14,12 +15,12 @@ public class ActionSequence : Ritual
         this.playersStates = new int[playersNumber];
     }
 
-    public bool ProcessInput(int playerNumber, Player.ActionInput input)
+    public bool ProcessInput(PlayerIndex playerNumber, Player.ActionInput input)
     {
-        var playerState = playersStates[playerNumber - 1];
+        var playerState = playersStates[(int)playerNumber];
         if (actions[playerState].input == input)
         {
-            playersStates[playerNumber - 1] = playerState + 1;
+            playersStates[(int)playerNumber] = playerState + 1;
             return true;
         }
         return false;
