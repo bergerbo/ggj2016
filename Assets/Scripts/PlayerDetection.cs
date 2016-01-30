@@ -9,6 +9,7 @@ public class PlayerDetection : MonoBehaviour {
 	// private PlayerIndex playerIndex;
 	// private bool playerIndexSet;
 
+	public GameObject[] playerIcons;
 
 	public GamePadState[] playerStates;
 	public GamePadState[] prevStates;
@@ -56,11 +57,14 @@ public class PlayerDetection : MonoBehaviour {
 	        {
 		        if (prevStates[i].Buttons.A == ButtonState.Released && playerStates[i].Buttons.A == ButtonState.Pressed)
 		        {
-		        	if(!gameManager.playersReady.ContainsKey((PlayerIndex)i))
-		            	gameManager.playersReady.Add((PlayerIndex)i, true);
-		            Debug.Log("Player"+i+" ready");
+		        	if(!gameManager.playersReady.ContainsKey((PlayerIndex)i)){
 
-		            Debug.Log(gameManager.playersReady.Count);
+		            	gameManager.playersReady.Add((PlayerIndex)i, true);
+		            	playerIcons[i].SetActive(true);
+		            	// Debug.Log("Player"+i+" ready");
+
+		            	// Debug.Log(gameManager.playersReady.Count);
+		        	}
 
 		        }
 	        }
