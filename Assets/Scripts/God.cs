@@ -6,7 +6,7 @@ public class God : MonoBehaviour {
 
 
     public Ritual currentRitual;
-    private Ritual nextRitual;
+    public Ritual nextRitual;
 
     public float ritualTempo;
     public float ritualDuration;
@@ -14,24 +14,19 @@ public class God : MonoBehaviour {
     private float timeSinceRitualBegin;
     private float timeSinceLastRitual;
 
+    private RandomRitualGenerator rrg;
+
+
     // Use this for initialization
     void Start () {
-        nextRitual = new Ritual();
+        rrg = new RandomRitualGenerator(1);
+        nextRitual = rrg.GetRandomRitual();
+        BroadcastRitual(nextRitual);
     }
 	
 	// Update is called once per frame
 	void Update () {
         float dt = Time.deltaTime;
-        timeSinceLastRitual += dt;
-
-        if(timeSinceLastRitual >= ritualTempo)
-        {
-            timeSinceLastRitual -= ritualTempo;
-            currentRitual = nextRitual;
-            BroadcastRitual();
-            timeSinceRitualBegin = 0;
-            nextRitual = new Ritual();
-        }
 
         if(currentRitual != null)
         {
@@ -39,22 +34,59 @@ public class God : MonoBehaviour {
 
             if(timeSinceRitualBegin >= ritualDuration)
             {
-                currentRitual = null;
                 PunishUnfaithfulPlayers();
+                currentRitual = null;
+                nextRitual = rrg.GetRandomRitual();
+                BroadcastRitual(nextRitual);
+            }
+        } else
+        {
+            timeSinceLastRitual += dt;
 
+            if (timeSinceLastRitual >= ritualTempo)
+            {
+                timeSinceLastRitual -= ritualTempo;
+                currentRitual = nextRitual;
+                timeSinceRitualBegin = 0;
+                Debug.Log("Go !");
             }
         }
+    }
 
+    public void ProcessPlayerInput(int playerNumber, Player.ActionInput input)
+    {
+        Debug.Log("Player " + playerNumber + "pressed" + Enum.GetName(input.GetType(), input));
+        var punishPlayer = true;
+        if(currentRitual != null)
+        {
+            punishPlayer = !currentRitual.ProcessInput(playerNumber, input);
+        }
+        if (punishPlayer)
+            PunishPlayer(playerNumber);
+    }
 
-	}
+    private void PunishPlayer(int playerNumber)
+    {
+        Debug.Log("Punish Player " + playerNumber);
+    }
 
     private void PunishUnfaithfulPlayers()
     {
-        throw new NotImplementedException();
+        var playersToPunish = currentRitual.UnfaithfulPlayers();
+
+        Debug.Log(playersToPunish.Length + " players to punish for ritual uncompletion");
     }
 
-    private void BroadcastRitual()
+    private void BroadcastRitual(Ritual ritual)
     {
-        throw new NotImplementedException();
+        var str = "For ritual next press buttons:";
+        ActionSequence seq = (ActionSequence)ritual;
+
+        foreach(Action action in seq.GetActions())
+        {
+            str += " " + Enum.GetName(action.input.GetType(),action.input);
+        }
+
+        Debug.Log(str);
     }
 }
