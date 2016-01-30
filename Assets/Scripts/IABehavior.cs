@@ -116,7 +116,7 @@ public class IABehavior : MonoBehaviour {
 	{
 		if(currentRitual.GetType() == typeof(ActionSequence))
 		{
-			Debug.Log("wololo");
+			executeSequence((ActionSequence)currentRitual);
 		}
 		else if(currentRitual.GetType() == typeof(ZoneOrder))
 		{
@@ -125,10 +125,15 @@ public class IABehavior : MonoBehaviour {
 
 		// Animation.Play(anim);
 	}
-
 	public void startPraying(Ritual ritual){
 		currentRitual = ritual;
 		state = State.PRAY;
+	}
+
+	public void executeSequence(ActionSequence ritual){
+		Action[] actions = ritual.actions;
+		
+
 	}
 
 	public void getClosestSpecificArea(ZoneOrder ritual){

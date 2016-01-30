@@ -7,7 +7,7 @@ using System.Linq;
 
 public class ActionSequence : Ritual
 {
-    private Action[] actions;
+    public Action[] actions;
     private Dictionary<PlayerIndex,int> playersStates;
 
     public ActionSequence(PlayerIndex[] players, Action[] actions)

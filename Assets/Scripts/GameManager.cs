@@ -49,6 +49,6 @@ public class GameManager : MonoBehaviour {
         this.players = players;
         gameState = GameState.PLAYERSELECTION;
         var rng = new System.Random();
-        Application.LoadLevel(rng.Next(1, 7));
+        Application.LoadLevel(1);
     }
 }

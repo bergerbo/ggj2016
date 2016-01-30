@@ -34,20 +34,45 @@ public class God : MonoBehaviour
     {
         players = new Dictionary<PlayerIndex, Player>();
 
-        var playerObjects = GameObject.FindGameObjectsWithTag("Player");
-        foreach (var po in playerObjects)
+        var rng = new System.Random();
+        var playerIndexes = GameManager.GetInstance().players;
+        var npcs = GameObject.FindGameObjectsWithTag("NPC");
+        var pickedNPCs = new List<GameObject>();
+        foreach (var playerIndex in playerIndexes)
         {
-            var player = po.GetComponent<Player>();
-            players.Add(player.playerIndex, player);
+            GameObject npc;
+            do
+            {
+                npc = npcs[rng.Next(0, npcs.Length)];
+
+            } while (pickedNPCs.Contains(npc));
+
+            pickedNPCs.Add(npc);
+            Humanify(npc, playerIndex);
         }
 
         rmg = new RandomMalusGenerator(maluses);
 
-        rrg = new RandomRitualGenerator(players,actions,zones);
+        rrg = new RandomRitualGenerator(players, actions, zones);
         nextRitual = rrg.GetRandomRitual();
         explainRitual(nextRitual);
     }
 
+    private void Humanify(GameObject npc, PlayerIndex playerIndex)
+    {
+        Destroy(npc.gameObject.transform.FindChild("targetPos").gameObject);
+        var controller = npc.gameObject.transform.FindChild("AIThirdPersonController");
+        Destroy(controller.GetComponent<IABehavior>());
+        Destroy(controller.GetComponent<UnityStandardAssets.Characters.ThirdPerson.AICharacterControl>());
+        Destroy(controller.GetComponent<NavMeshAgent>());
+
+        var player = npc.AddComponent<Player>();
+        player.playerIndex = playerIndex;
+        npc.tag = "Player";
+        var userController = controller.gameObject.AddComponent<UnityStandardAssets.Characters.ThirdPerson.ThirdPersonUserControl>();
+        userController.inversion = 1;
+        userController.playerIndex = playerIndex;
+    }
     // Update is called once per frame
     void Update()
     {
@@ -75,7 +100,7 @@ public class God : MonoBehaviour
                 currentRitual = nextRitual;
                 timeSinceRitualBegin = 0;
                 Debug.Log("Go !");
-                startRitual(currentRitual);
+                StartRitual(currentRitual);
             }
         }
     }
@@ -112,14 +137,18 @@ public class God : MonoBehaviour
 
     private void PunishUnfaithfulPlayers()
     {
-        foreach(var player in currentRitual.UnfaithfulPlayers())
-            PunishPlayer(player);     
+        foreach (var player in currentRitual.UnfaithfulPlayers())
+            PunishPlayer(player);
     }
 
 
-    public delegate void StartRitual(Ritual ritual);
-    public event StartRitual startRitual;
-
+    public void StartRitual(Ritual ritual)
+    {
+        var npcs = GameObject.FindGameObjectsWithTag("NPC");
+        foreach (var npc in npcs) {
+            //npc.startPraying(ritual);
+        }
+    }
     private void explainRitual(Ritual ritual)
     {
         ritual.Explain();
