@@ -7,12 +7,12 @@ public class Slowed : Malus
 {
     protected override void onBegin()
     {
-        player.GetComponent<ThirdPersonCharacter>().m_MoveSpeedMultiplier = 0.7f;
+        player.GetComponentInChildren<ThirdPersonCharacter>().m_MoveSpeedMultiplier = 0.7f;
 
     }
 
     protected override void onEnd()
     {
-        player.GetComponent<ThirdPersonCharacter>().m_MoveSpeedMultiplier = 1f;
+        player.GetComponentInChildren<ThirdPersonCharacter>().m_MoveSpeedMultiplier = 1f;
     }
 }
