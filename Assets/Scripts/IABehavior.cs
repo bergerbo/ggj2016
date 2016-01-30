@@ -21,6 +21,8 @@ public class IABehavior : MonoBehaviour {
 	private Collider specificAreaCollider;
 	public GameObject IAtargetPosition;
 
+	public GameObject outerPoint;
+
 	private float timer;
 	private float time;
 
@@ -32,7 +34,8 @@ public class IABehavior : MonoBehaviour {
 
 	void Start () 
 	{	
-
+		// state = State.LEAVE;
+		outerPoint = GameObject.Find("OuterPoint");
 		map = GameObject.Find("map");
 		mapCollider = map.GetComponent<Collider>();
 
@@ -97,7 +100,9 @@ public class IABehavior : MonoBehaviour {
 
 	public void Leave()
 	{
-
+		Debug.Log("leave");
+		StopCoroutine("GetTargetLoop");
+		characterControl.target = outerPoint.transform;
 	}
 
 	public void Pray()
