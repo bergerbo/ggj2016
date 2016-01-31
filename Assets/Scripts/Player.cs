@@ -28,6 +28,7 @@ public class Player : MonoBehaviour
     {
         god = GameObject.FindGameObjectWithTag("God").GetComponent<God>();
         animator = GetComponentInChildren<Animator>();
+        character = GetComponentInChildren<ThirdPersonCharacter>();
     }
 
     // Update is called once per frame
@@ -61,6 +62,13 @@ public class Player : MonoBehaviour
         {
             god.ProcessPlayerInput(playerIndex, ActionName.Up);
             character.TriggerAction("Up");
+            return;
+        }
+
+
+        if (state.Triggers.Left > 0.8 || state.Triggers.Right > 0.8)
+        {
+            character.Stab();
             return;
         }
     }
