@@ -75,13 +75,11 @@ public class God : MonoBehaviour
         Destroy(controller.GetComponent<NavMeshAgent>());
 
         var player = npc.AddComponent<Player>();
+        player.inversion = 1;
+        player.speed = 3;
         player.playerIndex = playerIndex;
         npc.tag = "Player";
 
-        var userController = controller.gameObject.AddComponent<UnityStandardAssets.Characters.ThirdPerson.ThirdPersonUserControl>();
-        userController.inversion = 1;
-        userController.speed = 3;
-        userController.playerIndex = playerIndex;
     }
     // Update is called once per frame
     void Update()
