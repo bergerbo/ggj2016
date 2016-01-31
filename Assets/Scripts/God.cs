@@ -7,6 +7,9 @@ using XInputDotNetPure;
 
 public class God : MonoBehaviour
 {
+    public float durationByAction;
+    public float durationForMovement;
+
     public Ritual currentRitual;
     public Ritual nextRitual;
 
@@ -75,13 +78,11 @@ public class God : MonoBehaviour
         Destroy(controller.GetComponent<NavMeshAgent>());
 
         var player = npc.AddComponent<Player>();
+        player.inversion = 1;
+        player.speed = 3;
         player.playerIndex = playerIndex;
         npc.tag = "Player";
 
-        var userController = controller.gameObject.AddComponent<UnityStandardAssets.Characters.ThirdPerson.ThirdPersonUserControl>();
-        userController.inversion = 1;
-        userController.speed = 3;
-        userController.playerIndex = playerIndex;
     }
     // Update is called once per frame
     void Update()
@@ -145,11 +146,6 @@ public class God : MonoBehaviour
         var malus = rmg.GetRandomMalus();
         var instance = GameObject.Instantiate(malus);
         instance.gameObject.transform.SetParent(player.gameObject.transform);
-
-        // playerPos = player.transform.GetChild(0).transform.position;
-
-        //GameObject.Instantiate(lightning, player.gameObject.transform.position, Quaternion.identity);
-
     }
 
     private void PunishUnfaithfulPlayers()

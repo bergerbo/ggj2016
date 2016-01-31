@@ -27,7 +27,7 @@ public class ZoneOrder : Ritual
         this.isAllowed = isAllowed;
         this.zone = zone;
         this.players = players;
-        duration = 3;
+        duration = 9;
     }
 
     override public bool ProcessInput(PlayerIndex playerIndex, Player.ActionName input)

@@ -43,12 +43,6 @@ namespace UnityStandardAssets.Characters.ThirdPerson
                 return;
             }
 
-            if (withVelocity)
-            {
-                m_Rigidbody.velocity = move;
-            }
-
-
             if (move.magnitude > 1f) move.Normalize();
             move = transform.InverseTransformDirection(move);
 

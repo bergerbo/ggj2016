@@ -107,8 +107,8 @@ public class IABehavior : MonoBehaviour
                     }
                     break;
                 case State.OBEY:
-                    state = State.WANDER;
                     yield return new WaitForSeconds(currentRitual.duration);
+                    state = State.WANDER;
                     break;
             }
             yield return null;
@@ -156,45 +156,36 @@ public class IABehavior : MonoBehaviour
             //IAtargetPosition.transform.position = character.transform.position;
             state = State.PRAY;
             actions = ((ActionSequence)ritual).actions;
-
             currentAction = 0;
-            spareTime = ritual.duration;
-            foreach (var action in actions)
-            {
-                spareTime += action.duration;
-            }
         }
         else
         {
-            state = State.OBEY;
-            getClosestSpecificArea((ZoneOrder)ritual);
+            var zone = (ZoneOrder)ritual;
+            if (zone.isAllowed)
+            {
+                state = State.OBEY;
+                getClosestSpecificArea((ZoneOrder)ritual);
+            }
         }
-    }
-
-    public void executeSequence(ActionSequence ritual)
-    {
-        Action[] actions = ritual.actions;
     }
 
     public void getClosestSpecificArea(ZoneOrder ritual)
     {
-        if (ritual.isAllowed)
+        GameObject[] zones = GameObject.FindGameObjectsWithTag(ritual.zone.ToString());
+        GameObject closest = null;
+        float min = float.MaxValue;
+        for (int i = 0; i < zones.Length; i++)
         {
-            GameObject[] zones = GameObject.FindGameObjectsWithTag(ritual.zone.ToString());
-            GameObject closest = null;
-            float min = float.MaxValue;
-            for (int i = 0; i < zones.Length; i++)
+            var distance = Vector3.Distance(gameObject.transform.position, zones[i].transform.position);
+            if (distance < min)
             {
-                var distance = Vector3.Distance(gameObject.transform.position, zones[i].transform.position);
-                if (distance < min)
-                {
-                    min = distance;
-                    closest = zones[i];
-                }
+                min = distance;
+                closest = zones[i];
             }
-
-            IAtargetPosition.transform.position = closest.transform.position;
         }
+
+        IAtargetPosition.transform.position = closest.transform.position;
+
     }
 
     public void GetRandomPosition(Collider area)

@@ -21,6 +21,9 @@ public class Player : MonoBehaviour
     private GamePadState prevState;
     private ThirdPersonCharacter character;
     private Animator animator;
+    private Transform m_Cam;
+    public float inversion;
+    public float speed;
     #endregion Inputs
 
     // Use this for initialization
@@ -29,6 +32,8 @@ public class Player : MonoBehaviour
         god = GameObject.FindGameObjectWithTag("God").GetComponent<God>();
         animator = GetComponentInChildren<Animator>();
         character = GetComponentInChildren<ThirdPersonCharacter>();
+
+        m_Cam = Camera.main.transform;
     }
 
     // Update is called once per frame
@@ -36,7 +41,7 @@ public class Player : MonoBehaviour
     {
         prevState = state;
         state = GamePad.GetState(playerIndex);
-
+        
         if (state.Buttons.A == ButtonState.Pressed && prevState.Buttons.A == ButtonState.Released)
         {
             if (character.TriggerAction("Down"))
@@ -70,6 +75,22 @@ public class Player : MonoBehaviour
         {
             character.Stab();
             return;
+        }
+
+        if (!character.isInAnimation())
+        {
+            // read inputs
+            float h = state.ThumbSticks.Left.X;
+            float v = state.ThumbSticks.Left.Y;
+
+            // calculate camera relative direction to move:
+            var m_CamForward = Vector3.Scale(m_Cam.up, new Vector3(1, 0, 1)).normalized;
+            var m_Move = speed * inversion * v * m_CamForward + speed * inversion * h * m_Cam.right;
+
+            // pass all parameters to the character control script
+            character.Move(m_Move, true);
+
+            character.GetComponent<Rigidbody>().velocity = m_Move;
         }
     }
 
