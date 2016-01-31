@@ -68,6 +68,14 @@ public class God : MonoBehaviour
         nextRitual = rrg.GetRandomRitual();
         explainRitual(nextRitual);
     }
+    public void DeletePlayer(PlayerIndex playerIndex)
+    {   
+        players.Remove(playerIndex);
+        if(players.Count == 1)
+        {
+            // GameManager.GetInstance().state = GameManager.State.VICTORY;
+        }
+    }
 
     private void Humanify(GameObject npc, PlayerIndex playerIndex)
     {
@@ -96,6 +104,7 @@ public class God : MonoBehaviour
             if (timeSinceRitualBegin >= ritualDuration)
             {
 				GameObject.Find ("Audio").GetComponent<Soundscript>().Play_sound ("Clap");
+				GameObject.Find ("Audio").GetComponent<Soundscript>().Music_FadeVolumeTo (1f, 3f);
                 animator.SetTrigger("Clap");
                 PunishUnfaithfulPlayers();
                 currentRitual = null;
@@ -115,10 +124,13 @@ public class God : MonoBehaviour
                 timeSinceRitualBegin = 0;
 				GameObject.Find ("Audio").GetComponent<Soundscript>().Play_sound ("Clap");
 				GameObject.Find ("Audio").GetComponent<Soundscript>().Play_sound ("Dong");
+				GameObject.Find ("Audio").GetComponent<Soundscript>().Music_FadeVolumeTo (0f, 3f);
                 animator.SetTrigger("Clap");
                 StartRitual(currentRitual);
             }
         }
+
+
     }
 
     public void ProcessPlayerInput(PlayerIndex playerNumber, Player.ActionName input)
