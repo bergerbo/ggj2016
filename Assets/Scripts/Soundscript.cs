@@ -10,6 +10,8 @@ public class Soundscript : MonoBehaviour {
 	public AudioClip Clap;
 	public AudioClip Dong;
 	public AudioClip Tonner;
+	public AudioClip CriRoi;
+	public AudioClip Stab;
 	public AudioClip Cri1;
 	public AudioClip Cri2;
 	public AudioClip Cri3;
@@ -61,6 +63,14 @@ public class Soundscript : MonoBehaviour {
 		if (snd_name == "Chant2")
 		{
 			sounds_audio_source_as.PlayOneShot(Chant2);
+		}	
+		if (snd_name == "CriRoi")
+		{
+			sounds_audio_source_as.PlayOneShot(CriRoi);
+		}	
+		if (snd_name == "Stab")
+		{
+			sounds_audio_source_as.PlayOneShot(Stab);
 		}	
 	}
 
