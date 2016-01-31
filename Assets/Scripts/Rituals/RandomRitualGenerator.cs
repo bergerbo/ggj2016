@@ -24,10 +24,10 @@ public class RandomRitualGenerator {
     public Ritual GetRandomRitual()
     {
         var selecta = rng.NextDouble();
-        //if(selecta > 0.0)
-        //{
-        //    return GetRandomZoneOrder();
-        //} 
+        if(selecta > 0.7)
+        {
+           return GetRandomZoneOrder();
+        } 
  
         return GetRandomActionSequence();
     }
