@@ -54,7 +54,6 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
             UpdateAnimator(move);
 
-            m_Rigidbody.velocity = move;
         }
 
         public void TriggerAction(string actionName)

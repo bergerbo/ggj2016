@@ -28,6 +28,7 @@ public class Player : MonoBehaviour
     {
         god = GameObject.FindGameObjectWithTag("God").GetComponent<God>();
         animator = GetComponentInChildren<Animator>();
+        character = GetComponentInChildren<ThirdPersonCharacter>();
     }
 
     // Update is called once per frame
