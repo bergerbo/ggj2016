@@ -25,20 +25,22 @@ public class God : MonoBehaviour
 
     [SerializeField]
     private Action[] actions;
+
     [SerializeField]
     private ZoneOrder.Zone[] zones;
     private RandomRitualGenerator rrg;
 
-
+    private Animator animator;
     // Use this for initialization
     void Start()
     {
+        animator = GetComponent<Animator>();
         players = new Dictionary<PlayerIndex, Player>();
 
         var rng = new System.Random();
         var playerIndexes = GameManager.GetInstance().players;
 
-		players = new Dictionary<PlayerIndex, Player> ();
+        players = new Dictionary<PlayerIndex, Player>();
 
         rmg = new RandomMalusGenerator(maluses);
 
@@ -59,7 +61,7 @@ public class God : MonoBehaviour
 
             pickedNPCs.Add(npc);
             Humanify(npc, playerIndex);
-			players.Add(playerIndex,npc.GetComponent<Player>());
+            players.Add(playerIndex, npc.GetComponent<Player>());
         }
     }
 
@@ -91,6 +93,8 @@ public class God : MonoBehaviour
 
             if (timeSinceRitualBegin >= ritualDuration)
             {
+
+                animator.SetTrigger("Clap");
                 PunishUnfaithfulPlayers();
                 currentRitual = null;
                 nextRitual = rrg.GetRandomRitual();
@@ -107,7 +111,7 @@ public class God : MonoBehaviour
                 currentRitual = nextRitual;
                 ritualDuration = currentRitual.duration;
                 timeSinceRitualBegin = 0;
-                Debug.Log("Go !");
+                animator.SetTrigger("Clap");
                 StartRitual(currentRitual);
             }
         }
@@ -158,12 +162,41 @@ public class God : MonoBehaviour
     public void StartRitual(Ritual ritual)
     {
         var npcs = GameObject.FindGameObjectsWithTag("NPC");
-        foreach (var npc in npcs) {
+        foreach (var npc in npcs)
+        {
             npc.GetComponentInChildren<IABehavior>().startPraying(ritual);
         }
     }
     private void explainRitual(Ritual ritual)
     {
+        if(ritual.GetType() == typeof(ActionSequence))
+        {
+            var seq = (ActionSequence)ritual;
+            StartCoroutine(ExplainSequence(seq.actions, 0));
+        } else
+        {
+
+        }
         ritual.Explain();
+    }
+
+    IEnumerator ExplainSequence(Action[] actions, int index)
+    {
+        yield return new WaitForSeconds((ritualTempo - 1) / (actions.Length + 1));
+
+        animator.SetTrigger(actions[index].actionName.ToString());
+
+        index++;
+
+        if (index >= actions.Length)
+            yield break;
+
+        yield return StartCoroutine(ExplainSequence(actions,index));
+    }
+
+    IEnumerator ExplainZone(ZoneOrder.Zone zone, bool allowed)
+    {
+
+        yield return null;
     }
 }

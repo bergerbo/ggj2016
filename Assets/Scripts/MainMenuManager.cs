@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using XInputDotNetPure;
 using Random = UnityEngine.Random;
 
-public class PlayerDetection : MonoBehaviour
+public class MainMenuManager : MonoBehaviour
 {
 
     public GameObject[] playerIcons;
@@ -18,7 +18,7 @@ public class PlayerDetection : MonoBehaviour
     private GameManager gameManager;
 
     public List<PlayerIndex> playersReady = new List<PlayerIndex>();
-    public GameObject howToPlay;
+    public GameObject howToWin;
     public GameObject startButton;
 
 
@@ -57,7 +57,23 @@ public class PlayerDetection : MonoBehaviour
                 }
                 if (prevStates[i].Buttons.Start == ButtonState.Released && playerStates[i].Buttons.Start == ButtonState.Pressed)
                 {
-                	howToPlay.SetActive(true);
+                        gameManager.gameState = GameManager.GameState.HOWTO;
+                        howToWin.SetActive(true);
+                	// howToPlay.SetActive(true);
+                }
+            }
+        }
+
+        if(gameManager.gameState == GameManager.GameState.HOWTO)
+        {
+            for (int i = 0; i < playerStates.Length; i++)
+            {
+                prevStates[i] = playerStates[i];
+                playerStates[i] = GamePad.GetState((PlayerIndex)i);
+
+                if (prevStates[i].Buttons.Start == ButtonState.Released && playerStates[i].Buttons.Start == ButtonState.Pressed)
+                {
+                     
                     StartRandomLevel();
                 }
             }

@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour {
 		PLAYERDETECTION,
 		TUTO,
 		CREDITS,
+		HOWTO,
 		RUN,
 		PAUSE,
 		VICTORY
