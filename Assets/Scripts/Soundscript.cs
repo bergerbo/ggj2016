@@ -23,7 +23,7 @@ public class Soundscript : MonoBehaviour {
 	//Joue un son
 	public void Play_sound (string snd_name)  
 	{															
-		sounds_audio_source_as.volume = 1;
+		sounds_audio_source_as.volume = 1f;
 
 		if (snd_name == "Clap")
 		{
