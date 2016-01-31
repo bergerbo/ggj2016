@@ -1,10 +1,6 @@
 using System;
 using UnityEngine;
 
-namespace UnityStandardAssets.Characters.ThirdPerson
-{
-    [RequireComponent(typeof (NavMeshAgent))]
-    [RequireComponent(typeof (ThirdPersonCharacter))]
     public class AICharacterControl : MonoBehaviour
     {
         public NavMeshAgent agent { get; private set; } // the navmesh agent required for the path finding
@@ -46,4 +42,3 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             this.target = target;
         }
     }
-}

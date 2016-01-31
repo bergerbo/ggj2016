@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour {
 	public GameState gameState;
 
     public PlayerIndex[] players;
+    public List<PlayerIndex> alive;
 
 	public static GameManager instance;
 
@@ -48,8 +49,21 @@ public class GameManager : MonoBehaviour {
     public void StartRandomLevel(PlayerIndex[] players)
     {
         this.players = players;
+        
+        alive = new List<PlayerIndex>();
+
+        foreach(var player in players){
+        	alive.Add(player);
+        }
+
         gameState = GameState.PLAYERDETECTION;
         var rng = new System.Random();
         Application.LoadLevel("LD0"+rng.Next(1, 6));
     }
+	public void PlayerDied(PlayerIndex playerIndex){
+		alive.Remove(playerIndex);
+		if(alive.Count() == 1)
+			Debug.Log("Somebody won");
+	}
+
 }
