@@ -55,10 +55,12 @@ public class MainMenuManager : MonoBehaviour
                         playerIcons[i].SetActive(true);
                     }
                 }
-                // if (prevStates[i].Buttons.Start == ButtonState.Released && playerStates[i].Buttons.Start == ButtonState.Pressed)
-                // {
-                // 	// howToPlay.SetActive(true);
-                // }
+                if (prevStates[i].Buttons.Start == ButtonState.Released && playerStates[i].Buttons.Start == ButtonState.Pressed)
+                {
+                        gameManager.gameState = GameManager.GameState.HOWTO;
+                        howToWin.SetActive(true);
+                	// howToPlay.SetActive(true);
+                }
             }
         }
 
@@ -71,7 +73,7 @@ public class MainMenuManager : MonoBehaviour
 
                 if (prevStates[i].Buttons.Start == ButtonState.Released && playerStates[i].Buttons.Start == ButtonState.Pressed)
                 {
-                    howToWin.SetActive(true); 
+                     
                     StartRandomLevel();
                 }
             }
