@@ -12,6 +12,7 @@ public class MainMenuManager : MonoBehaviour
 
     public GamePadState[] playerStates;
     public GamePadState[] prevStates;
+	public ScrollMainMenu scrollMainMenu;
 
     // public GameObject readyImage;
 
@@ -21,7 +22,8 @@ public class MainMenuManager : MonoBehaviour
     public GameObject howToWin;
     public GameObject startButton;
 
-
+	public bool GoStart = false;
+	
     // Use this for initialization
     void Start()
     {
@@ -44,27 +46,50 @@ public class MainMenuManager : MonoBehaviour
 
                 if (prevStates[i].Buttons.A == ButtonState.Released && playerStates[i].Buttons.A == ButtonState.Pressed)
                 {
-                	
-                    if (!playersReady.Contains((PlayerIndex)i))
-                    {
-                    	if(playersReady.Count>1)
-                    	{
-                    		startButton.SetActive(true);
-                    	}
-                        playersReady.Add((PlayerIndex)i);
-                        playerIcons[i].SetActive(true);
-                    }
-                }
-                if (prevStates[i].Buttons.Start == ButtonState.Released && playerStates[i].Buttons.Start == ButtonState.Pressed)
-                {
-                        gameManager.gameState = GameManager.GameState.HOWTO;
-                        howToWin.SetActive(true);
-                	// howToPlay.SetActive(true);
-                }
-            }
-        }
+					if (!playersReady.Contains((PlayerIndex)i))
+						{
+							playersReady.Add((PlayerIndex)i);
+							playerIcons[i].SetActive(true);
+							
+							if(playersReady.Count>=2)
+							{
+								startButton.SetActive(true);
+								GoStart = true;
+							}
+		                        
+						}
+					else 
+						{
+							if(playersReady.Count<=1)
+							{
+								startButton.SetActive(false);
+								GoStart = false;
+							}
+							playersReady.Remove((PlayerIndex)i);
+							playerIcons[i].SetActive(false);
+						}
+					}
+                
 
-        if(gameManager.gameState == GameManager.GameState.HOWTO)
+				if (prevStates[i].Buttons.Start == ButtonState.Released && playerStates[i].Buttons.Start == ButtonState.Pressed && GoStart)
+				{
+					gameManager.gameState = GameManager.GameState.HOWTO;
+					howToWin.SetActive(true);
+					// howToPlay.SetActive(true);
+				}
+            }
+
+			if(Input.GetKeyUp(KeyCode.JoystickButton1)) // = B
+			{
+				if(playersReady.Count<=0)
+				{
+					scrollMainMenu.playerDetection.SetActive(false);
+					GameManager.GetInstance().gameState = GameManager.GameState.MAINMENU;
+				}
+			}
+		}
+		
+		if(gameManager.gameState == GameManager.GameState.HOWTO)
         {
             for (int i = 0; i < playerStates.Length; i++)
             {
@@ -73,10 +98,15 @@ public class MainMenuManager : MonoBehaviour
 
                 if (prevStates[i].Buttons.Start == ButtonState.Released && playerStates[i].Buttons.Start == ButtonState.Pressed)
                 {
-                     
                     StartRandomLevel();
                 }
             }
+
+			if(Input.GetKeyUp(KeyCode.JoystickButton1)) // = B
+			{
+				howToWin.SetActive(false);
+				GameManager.GetInstance().gameState = GameManager.GameState.PLAYERDETECTION;
+			}
         }
     }
 
