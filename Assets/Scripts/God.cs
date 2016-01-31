@@ -7,6 +7,9 @@ using XInputDotNetPure;
 
 public class God : MonoBehaviour
 {
+    public float durationByAction;
+    public float durationForMovement;
+
     public Ritual currentRitual;
     public Ritual nextRitual;
 
@@ -143,11 +146,6 @@ public class God : MonoBehaviour
         var malus = rmg.GetRandomMalus();
         var instance = GameObject.Instantiate(malus);
         instance.gameObject.transform.SetParent(player.gameObject.transform);
-
-        // playerPos = player.transform.GetChild(0).transform.position;
-
-        //GameObject.Instantiate(lightning, player.gameObject.transform.position, Quaternion.identity);
-
     }
 
     private void PunishUnfaithfulPlayers()

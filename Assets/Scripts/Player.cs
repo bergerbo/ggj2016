@@ -77,7 +77,7 @@ public class Player : MonoBehaviour
             return;
         }
 
-        if (character.isInAnimation())
+        if (!character.isInAnimation())
         {
             // read inputs
             float h = state.ThumbSticks.Left.X;
@@ -91,7 +91,6 @@ public class Player : MonoBehaviour
             character.Move(m_Move, true);
 
             character.GetComponent<Rigidbody>().velocity = m_Move;
-
         }
     }
 

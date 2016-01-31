@@ -13,25 +13,33 @@ public class ScrollMainMenu : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-		if(Input.GetKeyUp(KeyCode.JoystickButton0))
+		if(GameManager.GetInstance().gameState == GameManager.GameState.MAINMENU)
 		{
-			playerDetection.SetActive(true);
-			GameManager.GetInstance().gameState = GameManager.GameState.PLAYERDETECTION;
-		}
-		else if(Input.GetKeyUp(KeyCode.JoystickButton3))
-		{
-			credits.SetActive(true);
-			GameManager.GetInstance().gameState = GameManager.GameState.CREDITS;
-		}
-		else if(Input.GetKey(KeyCode.JoystickButton2))
-		{
-			Application.Quit();
+			if(Input.GetKeyUp(KeyCode.JoystickButton0)) // = A
+			{
+				playerDetection.SetActive(true);
+				GameManager.GetInstance().gameState = GameManager.GameState.PLAYERDETECTION;
+			}
+
+			else if(Input.GetKeyUp(KeyCode.JoystickButton3)) // = Y
+			{
+				credits.SetActive(true);
+				GameManager.GetInstance().gameState = GameManager.GameState.CREDITS;
+			}
+
+			else if(Input.GetKeyUp(KeyCode.JoystickButton1)) // = B
+			{
+				Application.Quit();
+			}
 		}
 
 		if(GameManager.GetInstance().gameState == GameManager.GameState.CREDITS)
 		{
-			if(Input.anyKey)
+			if(Input.GetKeyUp(KeyCode.JoystickButton1)) // = B
+			{
 				credits.SetActive(false);
+				GameManager.GetInstance().gameState = GameManager.GameState.MAINMENU;
+			}
 		}
 	}
 }
