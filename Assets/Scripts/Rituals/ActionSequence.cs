@@ -8,14 +8,14 @@ using System.Linq;
 public class ActionSequence : Ritual
 {
     public Action[] actions;
-    private Dictionary<PlayerIndex,int> playersStates;
-    
+    private Dictionary<PlayerIndex, int> playersStates;
+
 
     public ActionSequence(PlayerIndex[] players, Action[] actions)
     {
         this.actions = actions;
         this.playersStates = new Dictionary<PlayerIndex, int>();
-        foreach(var player in players)
+        foreach (var player in players)
         {
             playersStates.Add(player, 0);
         }
@@ -26,9 +26,13 @@ public class ActionSequence : Ritual
     override public bool ProcessInput(PlayerIndex playerNumber, Player.ActionName input)
     {
         var playerState = playersStates[playerNumber];
-        if (actions[playerState].actionName == input)
+        if (playerState < actions.Length)
         {
-            playersStates[playerNumber] = playerState + 1;
+            if (actions[playerState].actionName == input)
+            {
+                playersStates[playerNumber] = playerState + 1;
+            }
+
         }
         return false;
     }
@@ -36,7 +40,7 @@ public class ActionSequence : Ritual
     override public IEnumerable<PlayerIndex> UnfaithfulPlayers()
     {
 
-        foreach(var playerState in playersStates)
+        foreach (var playerState in playersStates)
         {
             if (playerState.Value < actions.Length)
                 yield return playerState.Key;

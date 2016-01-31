@@ -7,6 +7,9 @@ using XInputDotNetPure;
 
 public class God : MonoBehaviour
 {
+    public float durationByAction;
+    public float durationForMovement;
+
     public Ritual currentRitual;
     public Ritual nextRitual;
 
@@ -15,7 +18,7 @@ public class God : MonoBehaviour
 
     private float timeSinceRitualBegin;
     private float timeSinceLastRitual;
-    public GameObject lightning;
+    // public GameObject lightnin;:g;
 
     private Dictionary<PlayerIndex, Player> players;
 
@@ -30,6 +33,8 @@ public class God : MonoBehaviour
     private ZoneOrder.Zone[] zones;
     private RandomRitualGenerator rrg;
 
+
+    public Canvas zonePopups;
     private Animator animator;
     // Use this for initialization
     void Start()
@@ -39,16 +44,8 @@ public class God : MonoBehaviour
 
         var rng = new System.Random();
         var playerIndexes = GameManager.GetInstance().players;
-
-        players = new Dictionary<PlayerIndex, Player>();
-
-        rmg = new RandomMalusGenerator(maluses);
-
-        rrg = new RandomRitualGenerator(players, actions, zones);
-        nextRitual = rrg.GetRandomRitual();
-        explainRitual(nextRitual);
-
         var npcs = GameObject.FindGameObjectsWithTag("NPC");
+
         var pickedNPCs = new List<GameObject>();
         foreach (var playerIndex in playerIndexes)
         {
@@ -63,6 +60,13 @@ public class God : MonoBehaviour
             Humanify(npc, playerIndex);
             players.Add(playerIndex, npc.GetComponent<Player>());
         }
+
+
+        rmg = new RandomMalusGenerator(maluses);
+
+        rrg = new RandomRitualGenerator(players, actions, zones);
+        nextRitual = rrg.GetRandomRitual();
+        explainRitual(nextRitual);
     }
 
     private void Humanify(GameObject npc, PlayerIndex playerIndex)
@@ -74,13 +78,11 @@ public class God : MonoBehaviour
         Destroy(controller.GetComponent<NavMeshAgent>());
 
         var player = npc.AddComponent<Player>();
+        player.inversion = 1;
+        player.speed = 3;
         player.playerIndex = playerIndex;
         npc.tag = "Player";
 
-        var userController = controller.gameObject.AddComponent<UnityStandardAssets.Characters.ThirdPerson.ThirdPersonUserControl>();
-        userController.inversion = 1;
-        userController.speed = 3;
-        userController.playerIndex = playerIndex;
     }
     // Update is called once per frame
     void Update()
@@ -135,7 +137,6 @@ public class God : MonoBehaviour
 
         var player = players[playerNumber];
 
-
         var currentMalus = player.GetComponentInChildren<Malus>();
         if (currentMalus != null)
         {
@@ -145,11 +146,6 @@ public class God : MonoBehaviour
         var malus = rmg.GetRandomMalus();
         var instance = GameObject.Instantiate(malus);
         instance.gameObject.transform.SetParent(player.gameObject.transform);
-
-        // playerPos = player.transform.GetChild(0).transform.position;
-
-        GameObject.Instantiate(lightning, player.gameObject.transform.position, Quaternion.identity);
-
     }
 
     private void PunishUnfaithfulPlayers()
@@ -175,7 +171,8 @@ public class God : MonoBehaviour
             StartCoroutine(ExplainSequence(seq.actions, 0));
         } else
         {
-
+            var zo = (ZoneOrder)ritual;
+            StartCoroutine(ExplainZone(zo.zone, zo.isAllowed));
         }
         ritual.Explain();
     }
@@ -196,7 +193,17 @@ public class God : MonoBehaviour
 
     IEnumerator ExplainZone(ZoneOrder.Zone zone, bool allowed)
     {
+        yield return new WaitForSeconds((ritualTempo - 1) / 2);
 
-        yield return null;
+        var name = allowed ? "Marcher_" : "Nogo_";
+        name += zone.ToString();
+
+        var popup = zonePopups.transform.FindChild(name);
+        popup.gameObject.SetActive(true);
+        yield return new WaitForSeconds((ritualTempo - 1) / 2);
+        popup.gameObject.SetActive(false);
+
+
+        yield break;
     }
 }
