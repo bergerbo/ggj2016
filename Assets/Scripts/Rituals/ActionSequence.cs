@@ -9,6 +9,7 @@ public class ActionSequence : Ritual
 {
     public Action[] actions;
     private Dictionary<PlayerIndex,int> playersStates;
+    
 
     public ActionSequence(PlayerIndex[] players, Action[] actions)
     {
@@ -20,7 +21,7 @@ public class ActionSequence : Ritual
         }
     }
 
-    public bool ProcessInput(PlayerIndex playerNumber, Player.ActionInput input)
+    override public bool ProcessInput(PlayerIndex playerNumber, Player.ActionInput input)
     {
         var playerState = playersStates[playerNumber];
         if (actions[playerState].input == input)
@@ -30,7 +31,7 @@ public class ActionSequence : Ritual
         return false;
     }
 
-    public IEnumerable<PlayerIndex> UnfaithfulPlayers()
+    override public IEnumerable<PlayerIndex> UnfaithfulPlayers()
     {
 
         foreach(var playerState in playersStates)
@@ -40,7 +41,7 @@ public class ActionSequence : Ritual
         }
     }
 
-    public void Explain()
+    override public void Explain()
     {
         var str = "For ritual next press buttons:";
         foreach (Action action in actions)

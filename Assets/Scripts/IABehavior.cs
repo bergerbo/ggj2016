@@ -26,6 +26,7 @@ public class IABehavior : MonoBehaviour {
 
 	private float timer;
 	private float time;
+	private float prayingTimer;
 
 	private Ritual currentRitual;
 	private NavMeshAgent navMeshAgent;
@@ -127,12 +128,14 @@ public class IABehavior : MonoBehaviour {
 	}
 	public void startPraying(Ritual ritual){
 		currentRitual = ritual;
+		Debug.Log("dayum");
 		state = State.PRAY;
+		prayingTimer = 0;
 	}
 
 	public void executeSequence(ActionSequence ritual){
 		Action[] actions = ritual.actions;
-		
+
 
 	}
 
@@ -146,11 +149,16 @@ public class IABehavior : MonoBehaviour {
 			{
 				var distance = Vector3.Distance(gameObject.transform.position, zones[i].transform.position);
 				if(distance < min){
+
 					min = distance;
 					closest = zones[i];
 				}
 			}
-			specificAreaCollider = closest.GetComponent<Collider>();
+			Ray ray = new Ray(transform.position, -Vector3.up);
+	        RaycastHit hit;
+	        if (Physics.Raycast(ray, out hit, 100)) {
+	            Debug.Log(hit.collider.tag);
+	        }
 		}
 	}
 
@@ -164,6 +172,18 @@ public class IABehavior : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if(Vector3.Distance(gameObject.transform.position, IAtargetPosition.transform.position)< 3f)
-			GetRandomPosition(mapCollider);
+			if(state == State.WANDER)
+				GetRandomPosition(mapCollider);
+			else if(state == State.PRAY)
+				GetRandomPosition(specificAreaCollider);
+
+		if(state == State.PRAY)
+		{
+			if(prayingTimer >= currentRitual.duration)
+			{
+				state = State.WANDER;
+			}
+			prayingTimer+=Time.deltaTime;
+		}
 	}
 }

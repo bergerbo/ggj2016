@@ -36,6 +36,9 @@ public class God : MonoBehaviour
 
         var rng = new System.Random();
         var playerIndexes = GameManager.GetInstance().players;
+
+		players = new Dictionary<PlayerIndex, Player> ();
+
         var npcs = GameObject.FindGameObjectsWithTag("NPC");
         var pickedNPCs = new List<GameObject>();
         foreach (var playerIndex in playerIndexes)
@@ -49,6 +52,7 @@ public class God : MonoBehaviour
 
             pickedNPCs.Add(npc);
             Humanify(npc, playerIndex);
+			players.Add(playerIndex,npc.GetComponent<Player>());
         }
 
         rmg = new RandomMalusGenerator(maluses);
@@ -146,7 +150,7 @@ public class God : MonoBehaviour
     {
         var npcs = GameObject.FindGameObjectsWithTag("NPC");
         foreach (var npc in npcs) {
-            //npc.startPraying(ritual);
+            npc.GetComponentInChildren<IABehavior>().startPraying(ritual);
         }
     }
     private void explainRitual(Ritual ritual)
