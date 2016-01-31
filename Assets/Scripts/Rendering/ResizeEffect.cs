@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class ResizeEffect : MonoBehaviour {
-	public float Timer_actu = 0f;
+	private float Timer_actu = 0f;
 	public float Timer_max = 1f;
 	public float Speedscale = 0.1f;
 

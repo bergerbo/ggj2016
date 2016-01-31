@@ -13,13 +13,13 @@ public class PlayerDetection : MonoBehaviour
     public GamePadState[] playerStates;
     public GamePadState[] prevStates;
 
-    public GameObject readyImage;
+    // public GameObject readyImage;
 
     private GameManager gameManager;
 
     public List<PlayerIndex> playersReady = new List<PlayerIndex>();
-    public GameObject mainMenuUI;
-    public GameObject playerDetectionUI;
+    public GameObject howToPlay;
+    public GameObject startButton;
 
 
     // Use this for initialization
@@ -33,7 +33,7 @@ public class PlayerDetection : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (gameManager.gameState == GameManager.GameState.PLAYERSELECTION)
+        if (gameManager.gameState == GameManager.GameState.PLAYERDETECTION)
         {
             // Detect if a button was pressed this frame
 
@@ -44,25 +44,24 @@ public class PlayerDetection : MonoBehaviour
 
                 if (prevStates[i].Buttons.A == ButtonState.Released && playerStates[i].Buttons.A == ButtonState.Pressed)
                 {
+                	
                     if (!playersReady.Contains((PlayerIndex)i))
                     {
+                    	if(playersReady.Count>1)
+                    	{
+                    		startButton.SetActive(true);
+                    	}
                         playersReady.Add((PlayerIndex)i);
                         playerIcons[i].SetActive(true);
                     }
                 }
                 if (prevStates[i].Buttons.Start == ButtonState.Released && playerStates[i].Buttons.Start == ButtonState.Pressed)
                 {
+                	howToPlay.SetActive(true);
                     StartRandomLevel();
                 }
             }
         }
-    }
-
-    public void LaunchPlayerDetection()
-    {
-        mainMenuUI.SetActive(false);
-        playerDetectionUI.SetActive(true);
-        GameManager.GetInstance().gameState = GameManager.GameState.PLAYERSELECTION;
     }
 
     public void StartRandomLevel()
