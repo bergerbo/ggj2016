@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
     }
 
     public PlayerIndex playerIndex;
-    private God god;
+    public God god;
 
     #region Inputs
     private GamePadState state;

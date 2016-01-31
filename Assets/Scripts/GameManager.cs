@@ -63,7 +63,8 @@ public class GameManager : MonoBehaviour {
 	public void PlayerDied(PlayerIndex playerIndex){
 		alive.Remove(playerIndex);
 		if(alive.Count() == 1)
-			Debug.Log("Somebody won");
+			StartRandomLevel(players);
 	}
 
+	public void update(){}
 }

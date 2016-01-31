@@ -68,6 +68,14 @@ public class God : MonoBehaviour
         nextRitual = rrg.GetRandomRitual();
         explainRitual(nextRitual);
     }
+    public void DeletePlayer(PlayerIndex playerIndex)
+    {   
+        players.Remove(playerIndex);
+        if(players.Count == 1)
+        {
+            // GameManager.GetInstance().state = GameManager.State.VICTORY;
+        }
+    }
 
     private void Humanify(GameObject npc, PlayerIndex playerIndex)
     {
@@ -119,6 +127,8 @@ public class God : MonoBehaviour
                 StartRitual(currentRitual);
             }
         }
+
+
     }
 
     public void ProcessPlayerInput(PlayerIndex playerNumber, Player.ActionName input)

@@ -119,9 +119,12 @@ using UnityEngine;
         {
             dead = true; 	
         	var player = gameObject.GetComponentInParent<Player>();
-        
-        	if(player != null){
+            
+            if(player != null){
+                player.god.deletePlayer(player.playerIndex);
         		GameManager.GetInstance().PlayerDied(player.playerIndex);
+                
+                Debug.Log(player.playerIndex);
         	}
 
             m_Animator.SetBool("Dead", true);
