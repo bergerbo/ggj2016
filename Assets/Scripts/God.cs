@@ -30,6 +30,8 @@ public class God : MonoBehaviour
     private ZoneOrder.Zone[] zones;
     private RandomRitualGenerator rrg;
 
+
+    public Canvas zonePopups;
     private Animator animator;
     // Use this for initialization
     void Start()
@@ -175,7 +177,8 @@ public class God : MonoBehaviour
             StartCoroutine(ExplainSequence(seq.actions, 0));
         } else
         {
-
+            var zo = (ZoneOrder)ritual;
+            StartCoroutine(ExplainZone(zo.zone, zo.isAllowed));
         }
         ritual.Explain();
     }
@@ -196,7 +199,17 @@ public class God : MonoBehaviour
 
     IEnumerator ExplainZone(ZoneOrder.Zone zone, bool allowed)
     {
+        yield return new WaitForSeconds((ritualTempo - 1) / 2);
 
-        yield return null;
+        var name = allowed ? "Marcher_" : "Nogo_";
+        name += zone.ToString();
+
+        var popup = zonePopups.transform.FindChild(name);
+        popup.gameObject.SetActive(true);
+        yield return new WaitForSeconds((ritualTempo - 1) / 2);
+        popup.gameObject.SetActive(false);
+
+
+        yield break;
     }
 }

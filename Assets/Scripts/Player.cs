@@ -63,6 +63,13 @@ public class Player : MonoBehaviour
             character.TriggerAction("Up");
             return;
         }
+
+
+        if (state.Triggers.Left > 0.8 || state.Triggers.Right > 0.8)
+        {
+            character.Stab();
+            return;
+        }
     }
 
     public IEnumerable<ZoneOrder.Zone> GetZoneCollisions()
