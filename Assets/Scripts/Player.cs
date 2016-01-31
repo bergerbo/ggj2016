@@ -8,9 +8,9 @@ using UnityStandardAssets.Characters.ThirdPerson;
 public class Player : MonoBehaviour
 {
 
-    public enum ActionInput
+    public enum ActionName
     {
-        A, B, X, Y
+        Down, Right, Left, Up
     }
 
     public PlayerIndex playerIndex;
@@ -38,29 +38,29 @@ public class Player : MonoBehaviour
 
         if (state.Buttons.A == ButtonState.Pressed && prevState.Buttons.A == ButtonState.Released)
         {
-            god.ProcessPlayerInput(playerIndex, ActionInput.A);
-            animator.SetTrigger("Down");
+            god.ProcessPlayerInput(playerIndex, ActionName.Down);
+            character.TriggerAction("Down");
             return;
         }
 
         if (state.Buttons.B == ButtonState.Pressed && prevState.Buttons.B == ButtonState.Released)
         {
-            god.ProcessPlayerInput(playerIndex, ActionInput.B);
-            animator.SetTrigger("Right");
+            god.ProcessPlayerInput(playerIndex, ActionName.Right);
+            character.TriggerAction("Right");
             return;
         }
 
         if (state.Buttons.X == ButtonState.Pressed && prevState.Buttons.X == ButtonState.Released)
         {
-            god.ProcessPlayerInput(playerIndex, ActionInput.X);
-            animator.SetTrigger("Left");
+            god.ProcessPlayerInput(playerIndex, ActionName.Left);
+            character.TriggerAction("Left");
             return;
         }
 
         if (state.Buttons.Y == ButtonState.Pressed && prevState.Buttons.Y == ButtonState.Released)
         {
-            god.ProcessPlayerInput(playerIndex, ActionInput.Y);
-            animator.SetTrigger("Up");
+            god.ProcessPlayerInput(playerIndex, ActionName.Up);
+            character.TriggerAction("Up");
             return;
         }
     }

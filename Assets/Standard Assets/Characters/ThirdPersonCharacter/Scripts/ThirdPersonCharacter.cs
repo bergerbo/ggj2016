@@ -16,9 +16,13 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		float m_TurnAmount;
 		float m_ForwardAmount;
 		Vector3 m_GroundNormal;
-		
 
-		void Start()
+        static int pelicanRun = Animator.StringToHash("Base.PelicanRun");
+        static int pelicanIdle = Animator.StringToHash("Base.PelicanIdle");
+
+        private Vector3 positionStored;
+
+        void Start()
 		{
 			m_Animator = GetComponentInChildren<Animator>();
 			m_Rigidbody = GetComponent<Rigidbody>();
@@ -29,11 +33,15 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
 		public void Move(Vector3 move, bool crouch, bool jump)
 		{
-           
-			if (move.magnitude > 1f) move.Normalize();
+            if (isInAnimation())
+            {
+                return;
+            }
+
+            if (move.magnitude > 1f) move.Normalize();
 			move = transform.InverseTransformDirection(move);
 
-			move = Vector3.ProjectOnPlane(move, m_GroundNormal);
+			//move = Vector3.ProjectOnPlane(move, m_GroundNormal);
 			m_TurnAmount = Mathf.Atan2(move.x, move.z);
 			m_ForwardAmount = move.z;
 
@@ -42,6 +50,28 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             UpdateAnimator(move);
 		}
 
+        public void TriggerAction(string actionName)
+        {
+            if (isInAnimation())
+            {
+                return;
+            }
+
+            positionStored = transform.position;
+            m_Rigidbody.velocity = Vector3.zero;
+
+            Vector3 eulerAngles = transform.eulerAngles;
+            eulerAngles.y = 180;
+            transform.eulerAngles = eulerAngles;
+
+            m_Animator.SetTrigger(actionName);
+        }
+
+        public bool isInAnimation()
+        {
+            int nameHash = m_Animator.GetCurrentAnimatorStateInfo(0).fullPathHash;
+            return nameHash != pelicanRun && nameHash != pelicanIdle;
+        }
 
 		void UpdateAnimator(Vector3 move)
 		{

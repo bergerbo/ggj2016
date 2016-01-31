@@ -40,6 +40,12 @@ public class God : MonoBehaviour
 
 		players = new Dictionary<PlayerIndex, Player> ();
 
+        rmg = new RandomMalusGenerator(maluses);
+
+        rrg = new RandomRitualGenerator(players, actions, zones);
+        nextRitual = rrg.GetRandomRitual();
+        explainRitual(nextRitual);
+
         var npcs = GameObject.FindGameObjectsWithTag("NPC");
         var pickedNPCs = new List<GameObject>();
         foreach (var playerIndex in playerIndexes)
@@ -55,12 +61,6 @@ public class God : MonoBehaviour
             Humanify(npc, playerIndex);
 			players.Add(playerIndex,npc.GetComponent<Player>());
         }
-
-        rmg = new RandomMalusGenerator(maluses);
-
-        rrg = new RandomRitualGenerator(players, actions, zones);
-        nextRitual = rrg.GetRandomRitual();
-        explainRitual(nextRitual);
     }
 
     private void Humanify(GameObject npc, PlayerIndex playerIndex)
@@ -105,6 +105,7 @@ public class God : MonoBehaviour
             {
                 timeSinceLastRitual -= ritualTempo;
                 currentRitual = nextRitual;
+                ritualDuration = currentRitual.duration;
                 timeSinceRitualBegin = 0;
                 Debug.Log("Go !");
                 StartRitual(currentRitual);
@@ -112,7 +113,7 @@ public class God : MonoBehaviour
         }
     }
 
-    public void ProcessPlayerInput(PlayerIndex playerNumber, Player.ActionInput input)
+    public void ProcessPlayerInput(PlayerIndex playerNumber, Player.ActionName input)
     {
         Debug.Log("Player " + playerNumber + "pressed" + Enum.GetName(input.GetType(), input));
         var punishPlayer = true;

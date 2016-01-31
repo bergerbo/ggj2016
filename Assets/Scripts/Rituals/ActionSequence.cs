@@ -19,12 +19,14 @@ public class ActionSequence : Ritual
         {
             playersStates.Add(player, 0);
         }
+
+        duration = actions.Length * 3;
     }
 
-    override public bool ProcessInput(PlayerIndex playerNumber, Player.ActionInput input)
+    override public bool ProcessInput(PlayerIndex playerNumber, Player.ActionName input)
     {
         var playerState = playersStates[playerNumber];
-        if (actions[playerState].input == input)
+        if (actions[playerState].actionName == input)
         {
             playersStates[playerNumber] = playerState + 1;
         }
@@ -46,7 +48,7 @@ public class ActionSequence : Ritual
         var str = "For ritual next press buttons:";
         foreach (Action action in actions)
         {
-            str += " " + Enum.GetName(action.input.GetType(), action.input);
+            str += " " + Enum.GetName(action.actionName.GetType(), action.actionName);
         }
         Debug.Log(str);
 

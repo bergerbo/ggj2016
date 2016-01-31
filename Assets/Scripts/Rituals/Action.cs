@@ -2,6 +2,6 @@
 using System.Collections;
 
 public class Action : MonoBehaviour {
-    public Player.ActionInput input;
+    public Player.ActionName actionName;
     public float duration;
 }

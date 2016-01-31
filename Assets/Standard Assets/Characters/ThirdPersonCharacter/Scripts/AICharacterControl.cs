@@ -30,8 +30,6 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             {
                 agent.SetDestination(target.position);
 
-				
-				
                 // use the values to move the character
                 character.Move(agent.desiredVelocity, false, false);
             }
@@ -40,7 +38,6 @@ namespace UnityStandardAssets.Characters.ThirdPerson
                 // We still need to call the character's move function, but we send zeroed input as the move param.
                 character.Move(Vector3.zero, false, false);
             }
-
         }
 
 
