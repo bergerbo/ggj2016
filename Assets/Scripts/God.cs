@@ -152,7 +152,7 @@ public class God : MonoBehaviour
     {
         var npcs = GameObject.FindGameObjectsWithTag("NPC");
         foreach (var npc in npcs) {
-            //npc.startPraying(ritual);
+            npc.GetComponentInChildren<IABehavior>().startPraying(ritual);
         }
     }
     private void explainRitual(Ritual ritual)

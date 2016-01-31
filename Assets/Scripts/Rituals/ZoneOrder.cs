@@ -18,8 +18,8 @@ public class ZoneOrder : Ritual
         Terre
     }
 
-    private Zone zone;
-    private bool isAllowed;
+    public Zone zone;
+    public bool isAllowed;
     private Dictionary<PlayerIndex, Player> players;
 
     public ZoneOrder(Zone zone, bool isAllowed, Dictionary<PlayerIndex, Player> players)
@@ -29,12 +29,12 @@ public class ZoneOrder : Ritual
         this.players = players;
     }
 
-    public bool ProcessInput(PlayerIndex playerIndex, Player.ActionInput input)
+    override public bool ProcessInput(PlayerIndex playerIndex, Player.ActionInput input)
     {
         return true;
     }
 
-    public IEnumerable<PlayerIndex> UnfaithfulPlayers()
+    override public IEnumerable<PlayerIndex> UnfaithfulPlayers()
     {
         if (isAllowed)
             return PlayersOutsideZone();
@@ -66,7 +66,7 @@ public class ZoneOrder : Ritual
         }
     }
 
-    public void Explain()
+    override public void Explain()
     {
         if (isAllowed)
         {
