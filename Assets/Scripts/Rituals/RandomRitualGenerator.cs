@@ -21,6 +21,11 @@ public class RandomRitualGenerator {
         this.zones = zones;
     }
 
+    public void UpdatePlayers(Dictionary<PlayerIndex, Player> players)
+    {
+        this.players = players;
+    }
+
     public Ritual GetRandomRitual()
     {
         var selecta = rng.NextDouble();
