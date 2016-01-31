@@ -39,16 +39,16 @@ public class God : MonoBehaviour
         animator = GetComponent<Animator>();
         players = new Dictionary<PlayerIndex, Player>();
 
-        var rng = new System.Random();
-        var playerIndexes = GameManager.GetInstance().players;
-
-        players = new Dictionary<PlayerIndex, Player>();
-
         rmg = new RandomMalusGenerator(maluses);
 
         rrg = new RandomRitualGenerator(players, actions, zones);
         nextRitual = rrg.GetRandomRitual();
         explainRitual(nextRitual);
+
+        var rng = new System.Random();
+        var playerIndexes = GameManager.GetInstance().players;
+
+        players = new Dictionary<PlayerIndex, Player>();
 
         var npcs = GameObject.FindGameObjectsWithTag("NPC");
         var pickedNPCs = new List<GameObject>();
@@ -137,7 +137,6 @@ public class God : MonoBehaviour
 
         var player = players[playerNumber];
 
-
         var currentMalus = player.GetComponentInChildren<Malus>();
         if (currentMalus != null)
         {
@@ -150,7 +149,7 @@ public class God : MonoBehaviour
 
         // playerPos = player.transform.GetChild(0).transform.position;
 
-        GameObject.Instantiate(lightning, player.gameObject.transform.position, Quaternion.identity);
+        //GameObject.Instantiate(lightning, player.gameObject.transform.position, Quaternion.identity);
 
     }
 
