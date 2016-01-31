@@ -15,7 +15,7 @@ public class God : MonoBehaviour
 
     private float timeSinceRitualBegin;
     private float timeSinceLastRitual;
-    public GameObject lightning;
+    // public GameObject lightnin;:g;
 
     private Dictionary<PlayerIndex, Player> players;
 
@@ -39,18 +39,10 @@ public class God : MonoBehaviour
         animator = GetComponent<Animator>();
         players = new Dictionary<PlayerIndex, Player>();
 
-        rmg = new RandomMalusGenerator(maluses);
-
-        rrg = new RandomRitualGenerator(players, actions, zones);
-        nextRitual = rrg.GetRandomRitual();
-        explainRitual(nextRitual);
-
         var rng = new System.Random();
         var playerIndexes = GameManager.GetInstance().players;
-
-        players = new Dictionary<PlayerIndex, Player>();
-
         var npcs = GameObject.FindGameObjectsWithTag("NPC");
+
         var pickedNPCs = new List<GameObject>();
         foreach (var playerIndex in playerIndexes)
         {
@@ -65,6 +57,13 @@ public class God : MonoBehaviour
             Humanify(npc, playerIndex);
             players.Add(playerIndex, npc.GetComponent<Player>());
         }
+
+
+        rmg = new RandomMalusGenerator(maluses);
+
+        rrg = new RandomRitualGenerator(players, actions, zones);
+        nextRitual = rrg.GetRandomRitual();
+        explainRitual(nextRitual);
     }
 
     private void Humanify(GameObject npc, PlayerIndex playerIndex)

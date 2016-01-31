@@ -107,7 +107,6 @@ public class IABehavior : MonoBehaviour
                     }
                     break;
                 case State.OBEY:
-                    Debug.Log("OBEY");
                     state = State.WANDER;
                     yield return new WaitForSeconds(currentRitual.duration);
                     break;

@@ -39,29 +39,29 @@ public class Player : MonoBehaviour
 
         if (state.Buttons.A == ButtonState.Pressed && prevState.Buttons.A == ButtonState.Released)
         {
-            god.ProcessPlayerInput(playerIndex, ActionName.Down);
-            character.TriggerAction("Down");
+            if (character.TriggerAction("Down"))
+                god.ProcessPlayerInput(playerIndex, ActionName.Down);
             return;
         }
 
         if (state.Buttons.B == ButtonState.Pressed && prevState.Buttons.B == ButtonState.Released)
         {
-            god.ProcessPlayerInput(playerIndex, ActionName.Right);
-            character.TriggerAction("Right");
+            if (character.TriggerAction("Right"))
+                god.ProcessPlayerInput(playerIndex, ActionName.Right);
             return;
         }
 
         if (state.Buttons.X == ButtonState.Pressed && prevState.Buttons.X == ButtonState.Released)
         {
-            god.ProcessPlayerInput(playerIndex, ActionName.Left);
-            character.TriggerAction("Left");
+            if (character.TriggerAction("Left"))
+                god.ProcessPlayerInput(playerIndex, ActionName.Left);
             return;
         }
 
         if (state.Buttons.Y == ButtonState.Pressed && prevState.Buttons.Y == ButtonState.Released)
         {
-            god.ProcessPlayerInput(playerIndex, ActionName.Up);
-            character.TriggerAction("Up");
+            if (character.TriggerAction("Up"))
+                god.ProcessPlayerInput(playerIndex, ActionName.Up);
             return;
         }
 
