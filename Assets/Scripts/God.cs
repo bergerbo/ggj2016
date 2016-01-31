@@ -104,6 +104,7 @@ public class God : MonoBehaviour
             if (timeSinceRitualBegin >= ritualDuration)
             {
 				GameObject.Find ("Audio").GetComponent<Soundscript>().Play_sound ("Clap");
+				GameObject.Find ("Audio").GetComponent<Soundscript>().Music_FadeVolumeTo (1f, 3f);
                 animator.SetTrigger("Clap");
                 PunishUnfaithfulPlayers();
                 currentRitual = null;
@@ -123,6 +124,7 @@ public class God : MonoBehaviour
                 timeSinceRitualBegin = 0;
 				GameObject.Find ("Audio").GetComponent<Soundscript>().Play_sound ("Clap");
 				GameObject.Find ("Audio").GetComponent<Soundscript>().Play_sound ("Dong");
+				GameObject.Find ("Audio").GetComponent<Soundscript>().Music_FadeVolumeTo (0f, 3f);
                 animator.SetTrigger("Clap");
                 StartRitual(currentRitual);
             }

@@ -70,6 +70,12 @@ using UnityEngine;
             transform.eulerAngles = eulerAngles;
 
             m_Animator.SetTrigger(actionName);
+			
+			if(actionName=="Up"){GameObject.Find ("Audio").GetComponent<Soundscript>().Play_sound ("Cri1");}
+			if(actionName=="Down"){GameObject.Find ("Audio").GetComponent<Soundscript>().Play_sound ("Cri2");}
+			if(actionName=="Left"){GameObject.Find ("Audio").GetComponent<Soundscript>().Play_sound ("Cri3");}
+			if(actionName=="Right"){GameObject.Find ("Audio").GetComponent<Soundscript>().Play_sound ("Cri4");}
+
             return true;
         }
 
@@ -97,6 +103,7 @@ using UnityEngine;
                 	Debug.Log(hitInfo.collider.name);
                 }
             }
+			GameObject.Find ("Audio").GetComponent<Soundscript>().Play_sound ("Stab");
             m_Animator.SetTrigger("Stab");
         }
 
@@ -121,7 +128,7 @@ using UnityEngine;
         	var player = gameObject.GetComponentInParent<Player>();
             
             if(player != null){
-                player.god.deletePlayer(player.playerIndex);
+                player.god.DeletePlayer(player.playerIndex);
         		GameManager.GetInstance().PlayerDied(player.playerIndex);
                 
                 Debug.Log(player.playerIndex);

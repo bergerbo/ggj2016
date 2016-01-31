@@ -23,6 +23,7 @@ public class Soundscript : MonoBehaviour {
 	//Joue un son
 	public void Play_sound (string snd_name)  
 	{															
+		sounds_audio_source_as.volume = 1;
 
 		if (snd_name == "Clap")
 		{
@@ -38,18 +39,22 @@ public class Soundscript : MonoBehaviour {
 		}	
 		if (snd_name == "Cri1")
 		{
+			sounds_audio_source_as.volume = 0.2f;
 			sounds_audio_source_as.PlayOneShot(Cri1);
 		}	
 		if (snd_name == "Cri2")
 		{
+			sounds_audio_source_as.volume = 0.2f;
 			sounds_audio_source_as.PlayOneShot(Cri2);
 		}	
 		if (snd_name == "Cri3")
 		{
+			sounds_audio_source_as.volume = 0.2f;
 			sounds_audio_source_as.PlayOneShot(Cri3);
 		}	
 		if (snd_name == "Cri4")
 		{
+			sounds_audio_source_as.volume = 0.2f;
 			sounds_audio_source_as.PlayOneShot(Cri4);
 		}	
 		if (snd_name == "Fart")
