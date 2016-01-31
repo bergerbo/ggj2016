@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace UnityStandardAssets.Characters.ThirdPerson
@@ -15,12 +16,12 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		const float k_Half = 0.5f;
 		float m_TurnAmount;
 		float m_ForwardAmount;
-		Vector3 m_GroundNormal;
 
         static int pelicanRun = Animator.StringToHash("Base.PelicanRun");
         static int pelicanIdle = Animator.StringToHash("Base.PelicanIdle");
 
         private Vector3 positionStored;
+        private bool dead = false;
 
         void Start()
 		{
@@ -33,7 +34,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
 		public void Move(Vector3 move, bool crouch, bool jump)
 		{
-            if (isInAnimation())
+            if (isInAnimation() || dead)
             {
                 return;
             }
@@ -41,8 +42,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             if (move.magnitude > 1f) move.Normalize();
 			move = transform.InverseTransformDirection(move);
 
-			//move = Vector3.ProjectOnPlane(move, m_GroundNormal);
-			m_TurnAmount = Mathf.Atan2(move.x, move.z);
+		    m_TurnAmount = Mathf.Atan2(move.x, move.z);
 			m_ForwardAmount = move.z;
 
 			ApplyExtraTurnRotation();
@@ -52,7 +52,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
         public void TriggerAction(string actionName)
         {
-            if (isInAnimation())
+            if (isInAnimation() || dead)
             {
                 return;
             }
@@ -73,7 +73,18 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             return nameHash != pelicanRun && nameHash != pelicanIdle;
         }
 
-		void UpdateAnimator(Vector3 move)
+        public void Stab()
+        {
+            if (isInAnimation() || dead)
+            {
+                return;
+            }
+
+            m_Animator.SetTrigger("Stab");
+        }
+
+
+        void UpdateAnimator(Vector3 move)
 		{
 			// update the animator parameters
 			m_Animator.SetFloat("Forward", m_ForwardAmount, 0.1f, Time.deltaTime);
@@ -99,6 +110,11 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 				m_Rigidbody.velocity = v;
 			}
 		}
+
+        public void Die() {
+            dead = true;
+            m_Animator.SetBool("Dead", true);
+        }
 
 	}
 }
