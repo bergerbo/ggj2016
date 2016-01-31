@@ -1,9 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace UnityStandardAssets.Characters.ThirdPerson
-{
-    [RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(Rigidbody))]
     [RequireComponent(typeof(CapsuleCollider))]
     public class ThirdPersonCharacter : MonoBehaviour
     {
@@ -29,6 +27,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
         void Start()
         {
+        	
             m_Animator = GetComponentInChildren<Animator>();
             m_Rigidbody = GetComponent<Rigidbody>();
             m_Animator.speed = 1;
@@ -87,15 +86,18 @@ namespace UnityStandardAssets.Characters.ThirdPerson
                 return;
             }
 
-            m_Animator.SetTrigger("Stab");
-
-            var hitInfo = new RaycastHit();
-            if(Physics.Raycast(transform.position, transform.forward, out hitInfo, stabDistance))
+            // Ray ray = (transform.position, transform.forward);
+            RaycastHit hitInfo;
+            if(Physics.Raycast(transform.position + transform.up * 2f, transform.forward, out hitInfo, stabDistance ))
             {
-                if(hitInfo.collider.tag == "Player" || hitInfo.collider.tag == "NPC"){
-                    hitInfo.collider.GetComponent<ThirdPersonCharacter>().Die();
+            	var tpc = hitInfo.collider.GetComponent<ThirdPersonCharacter>();
+                if(tpc != null){
+                	tpc.Die();
+                } else {
+                	Debug.Log(hitInfo.collider.name);
                 }
             }
+            m_Animator.SetTrigger("Stab");
         }
 
 
@@ -113,24 +115,17 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             transform.Rotate(0, m_TurnAmount * turnSpeed * Time.deltaTime, 0);
         }
 
-
-        //public void OnAnimatorMove()
-        //{
-        //	// we implement this function to override the default root motion.
-        //	// this allows us to modify the positional speed before it's applied.
-        //	if (Time.deltaTime > 0)
-        //	{
-        //		Vector3 v = (m_Animator.deltaPosition * m_MoveSpeedMultiplier) / Time.deltaTime;
-        //		v.y = m_Rigidbody.velocity.y;
-        //		m_Rigidbody.velocity = v;
-        //	}
-        //}
-
         public void Die()
         {
-            dead = true;
+            dead = true; 	
+        	var player = gameObject.GetComponentInParent<Player>();
+        
+        	if(player != null){
+        		GameManager.GetInstance().PlayerDied(player.playerIndex);
+        	}
+
             m_Animator.SetBool("Dead", true);
+        	Destroy(transform.parent.gameObject, 5f);
         }
 
     }
-}

@@ -74,7 +74,7 @@ public class God : MonoBehaviour
         Destroy(npc.gameObject.transform.FindChild("targetPos").gameObject);
         var controller = npc.gameObject.transform.FindChild("AIThirdPersonController");
         Destroy(controller.GetComponent<IABehavior>());
-        Destroy(controller.GetComponent<UnityStandardAssets.Characters.ThirdPerson.AICharacterControl>());
+        Destroy(controller.GetComponent<AICharacterControl>());
         Destroy(controller.GetComponent<NavMeshAgent>());
 
         var player = npc.AddComponent<Player>();
