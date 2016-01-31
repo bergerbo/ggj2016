@@ -18,7 +18,7 @@ public class MainMenuManager : MonoBehaviour
     private GameManager gameManager;
 
     public List<PlayerIndex> playersReady = new List<PlayerIndex>();
-    public GameObject howToPlay;
+    public GameObject howToWin;
     public GameObject startButton;
 
 
@@ -55,10 +55,10 @@ public class MainMenuManager : MonoBehaviour
                         playerIcons[i].SetActive(true);
                     }
                 }
-                if (prevStates[i].Buttons.Start == ButtonState.Released && playerStates[i].Buttons.Start == ButtonState.Pressed)
-                {
-                	howToPlay.SetActive(true);
-                }
+                // if (prevStates[i].Buttons.Start == ButtonState.Released && playerStates[i].Buttons.Start == ButtonState.Pressed)
+                // {
+                // 	// howToPlay.SetActive(true);
+                // }
             }
         }
 
@@ -74,6 +74,7 @@ public class MainMenuManager : MonoBehaviour
                     howToWin.SetActive(true); 
                     StartRandomLevel();
                 }
+            }
         }
     }
 
