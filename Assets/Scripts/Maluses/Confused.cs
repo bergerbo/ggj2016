@@ -7,11 +7,11 @@ public class Confused : Malus
 {
     protected override void onBegin()
     {
-        player.GetComponentInChildren<ThirdPersonUserControl>().inversion = -1;
+        player.inversion = -1;
     }
 
     protected override void onEnd()
     {
-        player.GetComponentInChildren<ThirdPersonUserControl>().inversion = 1;
+        player.inversion = 1;
     }
 }

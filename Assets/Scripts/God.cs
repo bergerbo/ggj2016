@@ -39,18 +39,10 @@ public class God : MonoBehaviour
         animator = GetComponent<Animator>();
         players = new Dictionary<PlayerIndex, Player>();
 
-        rmg = new RandomMalusGenerator(maluses);
-
-        rrg = new RandomRitualGenerator(players, actions, zones);
-        nextRitual = rrg.GetRandomRitual();
-        explainRitual(nextRitual);
-
         var rng = new System.Random();
         var playerIndexes = GameManager.GetInstance().players;
-
-        players = new Dictionary<PlayerIndex, Player>();
-
         var npcs = GameObject.FindGameObjectsWithTag("NPC");
+
         var pickedNPCs = new List<GameObject>();
         foreach (var playerIndex in playerIndexes)
         {
@@ -65,6 +57,13 @@ public class God : MonoBehaviour
             Humanify(npc, playerIndex);
             players.Add(playerIndex, npc.GetComponent<Player>());
         }
+
+
+        rmg = new RandomMalusGenerator(maluses);
+
+        rrg = new RandomRitualGenerator(players, actions, zones);
+        nextRitual = rrg.GetRandomRitual();
+        explainRitual(nextRitual);
     }
 
     private void Humanify(GameObject npc, PlayerIndex playerIndex)
@@ -76,13 +75,11 @@ public class God : MonoBehaviour
         Destroy(controller.GetComponent<NavMeshAgent>());
 
         var player = npc.AddComponent<Player>();
+        player.inversion = 1;
+        player.speed = 3;
         player.playerIndex = playerIndex;
         npc.tag = "Player";
 
-        var userController = controller.gameObject.AddComponent<UnityStandardAssets.Characters.ThirdPerson.ThirdPersonUserControl>();
-        userController.inversion = 1;
-        userController.speed = 3;
-        userController.playerIndex = playerIndex;
     }
     // Update is called once per frame
     void Update()
