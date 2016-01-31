@@ -80,7 +80,6 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         }
 
 
-
 		void ApplyExtraTurnRotation()
 		{
 			// help the character turn faster (this is in addition to root rotation in the animation)

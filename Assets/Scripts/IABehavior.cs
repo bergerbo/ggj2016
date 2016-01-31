@@ -84,21 +84,14 @@ public class IABehavior : MonoBehaviour
             switch (state)
             {
                 case State.WANDER:
-                    //Debug.Log("WANDER");
-                    //GetRandomPosition(mapCollider);
-                    //Wander();
                     break;
                 case State.STAND:
-                    //Stand();
                     break;
                 case State.LEAVE:
-                    //Leave();
                     break;
                 case State.PRAY:
                     if (currentAction >= actions.Length)
                     {
-                        Debug.Log("Wander Again");
-                        //GetRandomPosition(mapCollider);
                         navMeshAgent.Resume();
                         state = State.WANDER;
                     }
@@ -110,7 +103,7 @@ public class IABehavior : MonoBehaviour
                         var action = actions[currentAction];
                         character.TriggerAction(action.actionName.ToString());
                         currentAction++;
-                        yield return new WaitForSeconds(action.duration);
+                        yield return new WaitForSeconds(action.duration + 0.1f);
                     }
                     break;
                 case State.OBEY:
