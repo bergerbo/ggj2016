@@ -71,10 +71,7 @@ public class God : MonoBehaviour
     public void DeletePlayer(PlayerIndex playerIndex)
     {   
         players.Remove(playerIndex);
-        if(players.Count == 1)
-        {
-            // GameManager.GetInstance().state = GameManager.State.VICTORY;
-        }
+        rrg.UpdatePlayers(players);
     }
 
     private void Humanify(GameObject npc, PlayerIndex playerIndex)

@@ -29,7 +29,7 @@ public class RandomRitualGenerator {
     public Ritual GetRandomRitual()
     {
         var selecta = rng.NextDouble();
-        if(selecta > 0.3)
+        if(selecta > 0.45)
         {
            return GetRandomZoneOrder();
         } 
