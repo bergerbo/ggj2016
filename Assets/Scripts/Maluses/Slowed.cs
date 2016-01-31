@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
-using UnityStandardAssets.Characters.ThirdPerson;
 
 public class Slowed : Malus
 {

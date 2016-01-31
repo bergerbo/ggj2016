@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
-using UnityStandardAssets.Characters.ThirdPerson;
 
 public class Fart : Malus
 {
@@ -10,6 +9,7 @@ public class Fart : Malus
     protected override void onBegin()
     {
         Debug.Log("Player " + player.playerIndex + " farted");
+		GameObject.Find ("Audio").GetComponent<Soundscript>().Play_sound ("Fart");
 
         var controller = player.GetComponentInChildren<ThirdPersonCharacter>();
         var instance = (GameObject)Instantiate(fart,controller.transform.position,Quaternion.identity);

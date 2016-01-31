@@ -74,7 +74,7 @@ public class God : MonoBehaviour
         Destroy(npc.gameObject.transform.FindChild("targetPos").gameObject);
         var controller = npc.gameObject.transform.FindChild("AIThirdPersonController");
         Destroy(controller.GetComponent<IABehavior>());
-        Destroy(controller.GetComponent<UnityStandardAssets.Characters.ThirdPerson.AICharacterControl>());
+        Destroy(controller.GetComponent<AICharacterControl>());
         Destroy(controller.GetComponent<NavMeshAgent>());
 
         var player = npc.AddComponent<Player>();
@@ -95,7 +95,7 @@ public class God : MonoBehaviour
 
             if (timeSinceRitualBegin >= ritualDuration)
             {
-
+				GameObject.Find ("Audio").GetComponent<Soundscript>().Play_sound ("Clap");
                 animator.SetTrigger("Clap");
                 PunishUnfaithfulPlayers();
                 currentRitual = null;
@@ -113,6 +113,8 @@ public class God : MonoBehaviour
                 currentRitual = nextRitual;
                 ritualDuration = currentRitual.duration;
                 timeSinceRitualBegin = 0;
+				GameObject.Find ("Audio").GetComponent<Soundscript>().Play_sound ("Clap");
+				GameObject.Find ("Audio").GetComponent<Soundscript>().Play_sound ("Dong");
                 animator.SetTrigger("Clap");
                 StartRitual(currentRitual);
             }
@@ -134,6 +136,8 @@ public class God : MonoBehaviour
     private void PunishPlayer(PlayerIndex playerNumber)
     {
         Debug.Log("Punish Player " + playerNumber);
+		GameObject.Find ("Audio").GetComponent<Soundscript>().Play_sound ("CriRoi");
+		animator.SetTrigger("Malus");
 
         var player = players[playerNumber];
 
@@ -168,10 +172,12 @@ public class God : MonoBehaviour
         if(ritual.GetType() == typeof(ActionSequence))
         {
             var seq = (ActionSequence)ritual;
+			GameObject.Find ("Audio").GetComponent<Soundscript>().Play_sound ("Chant2");
             StartCoroutine(ExplainSequence(seq.actions, 0));
         } else
         {
             var zo = (ZoneOrder)ritual;
+			GameObject.Find ("Audio").GetComponent<Soundscript>().Play_sound ("Chant1");
             StartCoroutine(ExplainZone(zo.zone, zo.isAllowed));
         }
         ritual.Explain();

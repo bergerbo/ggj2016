@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityStandardAssets.Characters.ThirdPerson;
 using System;
 
 public class IABehavior : MonoBehaviour
