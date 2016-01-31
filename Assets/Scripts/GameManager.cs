@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour {
 	public enum GameState
 	{
 		MAINMENU,
-		PLAYERSELECTION,
+		PLAYERDETECTION,
 		TUTO,
 		CREDITS,
 		RUN,
@@ -47,8 +47,8 @@ public class GameManager : MonoBehaviour {
     public void StartRandomLevel(PlayerIndex[] players)
     {
         this.players = players;
-        gameState = GameState.PLAYERSELECTION;
+        gameState = GameState.PLAYERDETECTION;
         var rng = new System.Random();
-        Application.LoadLevel(1);
+        Application.LoadLevel("LD0"+rng.Next(1, 6));
     }
 }
