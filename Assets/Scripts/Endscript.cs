@@ -6,14 +6,14 @@ using System.Linq;
 using XInputDotNetPure;
 
 public class Endscript : MonoBehaviour {
-	GameManager gm;
+	private GameManager gm;
 
 	// Use this for initialization
 	void Start () {
-		gm = GameManager.GetInstance ();
+		gm = GameManager.GetInstance();
 		PlayerIndex winner = gm.alive.ElementAt(0);
 
-		CanvasGroup Canvas_winner = transform.Find("Player"+winner.ToString()).GetComponent<CanvasGroup>();
+		CanvasGroup Canvas_winner = transform.Find("Player"+(((int)winner)+1)).GetComponent<CanvasGroup>();
 		Canvas_winner.alpha = 1;
 	}
 	GamePadState[]prevStates = new GamePadState[4];
