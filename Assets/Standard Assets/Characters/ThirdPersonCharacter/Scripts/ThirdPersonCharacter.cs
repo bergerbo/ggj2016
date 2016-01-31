@@ -139,18 +139,18 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 				m_Animator.SetFloat("JumpLeg", jumpLeg);
 			}
 
-			// the anim speed multiplier allows the overall speed of walking/running to be tweaked in the inspector,
-			// which affects the movement speed because of the root motion.
-			if (m_IsGrounded && move.magnitude > 0)
-			{
-				m_Animator.speed = m_AnimSpeedMultiplier;
-			}
-			else
-			{
-				// don't use that while airborne
-				m_Animator.speed = 1;
-			}
-		}
+            // the anim speed multiplier allows the overall speed of walking/running to be tweaked in the inspector,
+            // which affects the movement speed because of the root motion.
+            if (m_IsGrounded && move.magnitude > 0)
+            {
+                m_Animator.speed = m_AnimSpeedMultiplier;
+            }
+            else
+            {
+                // don't use that while airborne
+                m_Animator.speed = 1;
+            }
+        }
 
 
 		void HandleAirborneMovement()

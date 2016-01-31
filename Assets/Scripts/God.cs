@@ -73,8 +73,10 @@ public class God : MonoBehaviour
         var player = npc.AddComponent<Player>();
         player.playerIndex = playerIndex;
         npc.tag = "Player";
+
         var userController = controller.gameObject.AddComponent<UnityStandardAssets.Characters.ThirdPerson.ThirdPersonUserControl>();
         userController.inversion = 1;
+        userController.speed = 3;
         userController.playerIndex = playerIndex;
     }
     // Update is called once per frame
@@ -150,7 +152,7 @@ public class God : MonoBehaviour
     {
         var npcs = GameObject.FindGameObjectsWithTag("NPC");
         foreach (var npc in npcs) {
-            //npc.startPraying(ritual);
+            npc.GetComponentInChildren<IABehavior>().startPraying(ritual);
         }
     }
     private void explainRitual(Ritual ritual)
