@@ -73,7 +73,7 @@ public class ZoneOrder : Ritual
             Debug.Log("Players must go to " + zone);
         } else
         {
-            Debug.Log("Players must leave to " + zone);
+            Debug.Log("Players must leave " + zone);
         }
     }
 }

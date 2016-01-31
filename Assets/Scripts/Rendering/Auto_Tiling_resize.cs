@@ -13,10 +13,10 @@ public class Auto_Tiling_resize : MonoBehaviour {
 		float ScaleX_f = transform.localScale.x;
 		float ScaleY_f = transform.localScale.z;
 
-		//rend.material.shader = shader1;
+		rend.material.mainTextureScale= new Vector2(ScaleX_f/3,ScaleY_f/3);
 
-		rend.material.SetFloat("_TilingX", ScaleX_f/3);
-		rend.material.SetFloat("_TilingY", ScaleY_f/3);
+		//rend.material.SetFloat("_TilingX", ScaleX_f/3);
+		//rend.material.SetFloat("_TilingY", ScaleY_f/3);
 	
     }
 

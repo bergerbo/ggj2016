@@ -16,6 +16,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         private Vector3 m_CamForward;             // The current forward direction of the camera
         private Vector3 m_Move;
         public float inversion;
+        public float speed;
 
         private void Start()
         {
@@ -49,7 +50,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             {
                 // calculate camera relative direction to move:
                 m_CamForward = Vector3.Scale(m_Cam.up, new Vector3(1, 0, 1)).normalized;
-                m_Move = inversion * v * m_CamForward + inversion * h * m_Cam.right;
+                m_Move = speed * inversion * v * m_CamForward + speed * inversion * h * m_Cam.right;
             }
             else
             {
@@ -59,6 +60,9 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
             // pass all parameters to the character control script
             m_Character.Move(m_Move, false, false);
+
+			var m_Rigidbody = m_Character.GetComponent<Rigidbody> ();
+			m_Rigidbody.velocity = m_Move;
         }
     }
 }
