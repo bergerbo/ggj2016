@@ -15,7 +15,7 @@ public class God : MonoBehaviour
 
     private float timeSinceRitualBegin;
     private float timeSinceLastRitual;
-    public GameObject lightning;
+    // public GameObject lightnin;:g;
 
     private Dictionary<PlayerIndex, Player> players;
 
