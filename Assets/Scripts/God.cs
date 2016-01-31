@@ -30,6 +30,8 @@ public class God : MonoBehaviour
     private ZoneOrder.Zone[] zones;
     private RandomRitualGenerator rrg;
 
+
+    public Canvas zonePopups;
     private Animator animator;
     // Use this for initialization
     void Start()
@@ -37,16 +39,16 @@ public class God : MonoBehaviour
         animator = GetComponent<Animator>();
         players = new Dictionary<PlayerIndex, Player>();
 
-        var rng = new System.Random();
-        var playerIndexes = GameManager.GetInstance().players;
-
-        players = new Dictionary<PlayerIndex, Player>();
-
         rmg = new RandomMalusGenerator(maluses);
 
         rrg = new RandomRitualGenerator(players, actions, zones);
         nextRitual = rrg.GetRandomRitual();
         explainRitual(nextRitual);
+
+        var rng = new System.Random();
+        var playerIndexes = GameManager.GetInstance().players;
+
+        players = new Dictionary<PlayerIndex, Player>();
 
         var npcs = GameObject.FindGameObjectsWithTag("NPC");
         var pickedNPCs = new List<GameObject>();
@@ -135,7 +137,6 @@ public class God : MonoBehaviour
 
         var player = players[playerNumber];
 
-
         var currentMalus = player.GetComponentInChildren<Malus>();
         if (currentMalus != null)
         {
@@ -148,7 +149,7 @@ public class God : MonoBehaviour
 
         // playerPos = player.transform.GetChild(0).transform.position;
 
-        GameObject.Instantiate(lightning, player.gameObject.transform.position, Quaternion.identity);
+        //GameObject.Instantiate(lightning, player.gameObject.transform.position, Quaternion.identity);
 
     }
 
@@ -175,7 +176,8 @@ public class God : MonoBehaviour
             StartCoroutine(ExplainSequence(seq.actions, 0));
         } else
         {
-
+            var zo = (ZoneOrder)ritual;
+            StartCoroutine(ExplainZone(zo.zone, zo.isAllowed));
         }
         ritual.Explain();
     }
@@ -196,7 +198,17 @@ public class God : MonoBehaviour
 
     IEnumerator ExplainZone(ZoneOrder.Zone zone, bool allowed)
     {
+        yield return new WaitForSeconds((ritualTempo - 1) / 2);
 
-        yield return null;
+        var name = allowed ? "Marcher_" : "Nogo_";
+        name += zone.ToString();
+
+        var popup = zonePopups.transform.FindChild(name);
+        popup.gameObject.SetActive(true);
+        yield return new WaitForSeconds((ritualTempo - 1) / 2);
+        popup.gameObject.SetActive(false);
+
+
+        yield break;
     }
 }
