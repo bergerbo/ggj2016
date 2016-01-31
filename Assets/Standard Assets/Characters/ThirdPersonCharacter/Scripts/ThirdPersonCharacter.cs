@@ -36,12 +36,18 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         }
 
 
-        public void Move(Vector3 move, bool crouch, bool jump)
+        public void Move(Vector3 move, bool withVelocity)
         {
             if (isInAnimation() || dead)
             {
                 return;
             }
+
+            if (withVelocity)
+            {
+                m_Rigidbody.velocity = move;
+            }
+
 
             if (move.magnitude > 1f) move.Normalize();
             move = transform.InverseTransformDirection(move);
@@ -56,11 +62,11 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
         }
 
-        public void TriggerAction(string actionName)
+        public bool TriggerAction(string actionName)
         {
             if (isInAnimation() || dead)
             {
-                return;
+                return false;
             }
 
             positionStored = transform.position;
@@ -71,6 +77,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
             transform.eulerAngles = eulerAngles;
 
             m_Animator.SetTrigger(actionName);
+            return true;
         }
 
         public bool isInAnimation()
